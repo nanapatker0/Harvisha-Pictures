@@ -164,18 +164,37 @@
             transform: translateY(-4px);
             box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.4);
         }
+/* --- Contact Section Icons & Text --- */
+        .contact-info p {
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px; /* Icon aur text ke beech ka space */
+        }
 
-        /* Adjusting the dark text on the contact section's button for readability */
+        .contact-info i {
+            color: #d4af37; /* Luxury Gold color for icons */
+            font-size: 22px;
+        }
+
+        /* --- Dark Liquid Glass Button (For Light Background) --- */
         .contact .btn {
-            color: #111;
-            background: rgba(255, 255, 255, 0.25); 
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.8);
-            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            color: #ffffff;
+            background: rgba(17, 17, 17, 0.85); /* Dark semi-transparent */
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
         }
 
         .contact .btn:hover {
-            background: rgba(255, 255, 255, 0.45); 
+            background: rgba(0, 0, 0, 0.95); 
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.25);
         }
 
         .section {
@@ -544,23 +563,34 @@
         <h2 class="section-title">Packages</h2>
         <div class="packages">
             <div class="card">
-                <h3>Basic</h3>
-                <p>Photography Coverage</p>
-                <p>Professional Editing</p>
-                <p>Online Delivery</p>
+                <h3>🌿 Essential Package</h3>
+               <p>1 Photographer</p>
+<p>1 Cinematographer</p>
+<p>Full Event Film</p>
+<p>100+ Edited Photos</p>
+<p>100 Photos Premium Album</p>
             </div>
             <div class="card">
-                <h3>Standard</h3>
-                <p>Photography + Cinematography</p>
-                <p>Wedding Teaser</p>
-                <p>Highlight Film</p>
+                <h3>✨ Signature Package</h3>
+               <p>2 Photographers</p>
+<p>2 Cinematographers</p>
+<p>Wedding Teaser</p>
+<p>Cinematic Highlight Film (3–5 Min)</p>
+<p>Full Event Film</p>
+<p>300+ Edited Photos</p>
+<p>2–3 Instagram Reels</p>
+<p>120 Photos Premium Album</p>
             </div>
             <div class="card">
-                <h3>Premium</h3>
-                <p>Multi-Camera Coverage</p>
-                <p>Drone Coverage</p>
-                <p>Cinematic Film</p>
-                <p>Luxury Album Design</p>
+                <h3>👑 Royal Package</h3>
+                <p>Multi-Camera Photography & Cinematography Team</p>
+<p>Wedding Teaser</p>
+<p>Cinematic Highlight Film</p>
+<p>Full-Length Wedding Film</p>
+<p>4–6 Instagram Reels</p>
+<p>600+ Edited Photos</p>
+<p>150 Photos Canvera Album</p>
+<p>Priority Delivery</p>
             </div>
         </div>
     </section>
@@ -603,24 +633,33 @@
             </p>
             
             <div class="social-links">
-                <a href="#" target="_blank" title="Facebook">
+                <a href="https://instagram.com/harvisha_pictures" target="_blank" title="Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
                 <a href="https://instagram.com/harvisha_pictures" target="_blank" title="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="#" target="_blank" title="YouTube">
+                <a href="https://youtube.com/@harvisha_pictures?si=PxhWaYQxI16z3y53" target="_blank" title="YouTube">
                     <i class="fab fa-youtube"></i>
                 </a>
             </div>
         </div>
     </section>
 
-    <section class="section contact reveal" id="contact">
+   <section class="section contact reveal" id="contact">
         <h2 class="section-title">Contact</h2>
-        <p>Kolkata, West Bengal</p>
-        <p>+91 62912 75473</p>
-        <p>Instagram: @harvisha_pictures</p>
+        
+        <div class="contact-info">
+            <!-- Location Icon -->
+            <p><i class="fas fa-map-marker-alt"></i> Kolkata, West Bengal</p>
+            
+            <!-- Phone Icon -->
+            <p><i class="fas fa-phone-alt"></i> +91 62912 75473</p>
+            
+            <!-- Email Icon -->
+            <p><i class="fas fa-envelope"></i> hello@harvishapictures.in</p>
+        </div>
+        
         <br>
         <a href="https://wa.me/916291275473" class="btn" target="_blank">Book Now On WhatsApp</a>
     </section>
