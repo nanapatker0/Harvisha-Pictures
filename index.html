@@ -129,20 +129,50 @@
             animation: slideUpFade 1s ease forwards 0.8s;
         }
 
+        /* --- Liquid Glass Button --- */
         .btn {
             display: inline-block;
             padding: 15px 35px;
-            background: #111;
-            color: white;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-radius: 40px; 
+            
+            /* The Liquid Glass Magic */
+            background: rgba(0, 0, 0, 0.25); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            
+            /* Glossy Light Reflections */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            
+            /* Deep floating shadow */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .btn:hover {
-            background: #333;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.6);
+            border-left: 1px solid rgba(255, 255, 255, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Adjusting the dark text on the contact section's button for readability */
+        .contact .btn {
+            color: #111;
+            background: rgba(255, 255, 255, 0.25); 
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .contact .btn:hover {
+            background: rgba(255, 255, 255, 0.45); 
         }
 
         .section {
@@ -340,7 +370,7 @@
             }
 
             header {
-                flex-direction: row; /* Keeps logo and menu icon on the same line */
+                flex-direction: row; 
                 padding: 15px 5%;
             }
 
@@ -444,7 +474,6 @@
             <img src="Images/logo.png" alt="Harvisha Pictures Logo">
         </a>
         
-        <!-- Hamburger Menu Icon -->
         <div class="menu-toggle" id="mobile-menu">
             <span class="bar"></span>
             <span class="bar"></span>
@@ -452,8 +481,7 @@
         </div>
 
         <nav id="nav-menu">
-            <a href="#">Event Services</a>
-            <a href="#">Makeup Artist</a>
+            <a href="#portfolio">Portfolio</a>
             <a href="#films">Films</a>
             <a href="#packages">Packages</a>
             <a href="#testimonials">Testimonials</a>
