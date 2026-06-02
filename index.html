@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
     <meta name="description" content="Harvisha Pictures - Luxury Wedding Photography & Cinematic Filmmaking based in Kolkata.">
     <title>Harvisha Pictures | Wedding Photography Kolkata</title>
 
@@ -22,10 +23,11 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: #fdfbf7; /* Very light off-white base */
+            background: #fdfbf7; 
             color: #111;
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
@@ -38,6 +40,7 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             padding: 20px 8%;
             display: flex;
             justify-content: space-between;
@@ -51,6 +54,11 @@
             max-height: 50px; 
             width: auto;
             display: block;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
         }
 
         nav a {
@@ -68,7 +76,8 @@
 
         .hero {
             height: 100vh;
-            /* Updated to exactly match your new BG file name */
+            /* Added min-height to ensure it doesn't break on landscape mobile */
+            min-height: 500px;
             background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)),
                 url("images/BG.jpg");
             background-size: cover;
@@ -110,6 +119,7 @@
             color: white;
             border-radius: 5px;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .btn:hover {
@@ -122,9 +132,8 @@
             padding: 100px 8%;
         }
 
-        /* --- NEW CREAM BACKGROUND UTILITY CLASS --- */
         .bg-cream {
-            background-color: #f7eed8; /* A beautiful, soft cream color */
+            background-color: #f7eed8; 
         }
 
         .section-title {
@@ -156,7 +165,7 @@
 
         .films {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
         }
 
@@ -193,7 +202,6 @@
             font-size: 24px;
         }
 
-        /* --- TESTIMONIALS --- */
         .testimonials-header {
             display: flex;
             align-items: center;
@@ -285,16 +293,9 @@
             animation: none;
         }
 
-        /* --- KEYFRAMES --- */
         @keyframes slideUpFade {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes pulse {
@@ -303,7 +304,6 @@
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
-        /* --- SCROLL REVEAL CLASSES --- */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -315,16 +315,72 @@
             transform: translateY(0);
         }
 
+        /* --- OPTIMIZED MOBILE MEDIA QUERIES --- */
         @media(max-width: 768px) {
-            .hero h1 { font-size: 42px; }
             header {
                 flex-direction: column;
-                gap: 15px;
+                gap: 12px;
                 padding: 15px 5%;
             }
+            
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px 15px;
+            }
+
+            nav a {
+                margin-left: 0;
+                font-size: 13px;
+                padding: 5px; /* Better touch target area */
+            }
+
+            .hero h1 { 
+                font-size: 42px; 
+            }
+
+            .hero p {
+                font-size: 15px;
+                margin-bottom: 20px;
+            }
+
+            .section { 
+                padding: 60px 5%; /* Reduces massive whitespace on mobile */
+            }
+
+            .section-title {
+                font-size: 32px;
+                margin-bottom: 35px;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr; /* Forces a clean single column on phones */
+            }
+
+            .gallery img {
+                height: 300px; /* Shorter images prevent endless scrolling on mobile */
+            }
+
+            .films {
+                grid-template-columns: 1fr;
+            }
+
+            iframe {
+                height: 220px;
+            }
+
             .testimonials-header {
                 flex-direction: column;
                 gap: 15px;
+                text-align: center;
+            }
+            
+            .whatsapp {
+                width: 55px; /* Slightly smaller so it doesn't block content */
+                height: 55px;
+                font-size: 30px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
@@ -369,7 +425,6 @@
         </div>
     </section>
 
-    <!-- CREAM BACKGROUND ADDED HERE -->
     <section class="section reveal bg-cream" id="films">
         <h2 class="section-title">Wedding Films</h2>
         <div class="films">
@@ -390,7 +445,6 @@
         </div>
     </section>
 
-    <!-- CREAM BACKGROUND ADDED HERE -->
     <section class="section reveal bg-cream" id="packages">
         <h2 class="section-title">Packages</h2>
         <div class="packages">
@@ -443,7 +497,6 @@
         </div>
     </section>
 
-    <!-- CREAM BACKGROUND ADDED HERE -->
     <section class="section reveal bg-cream" id="about">
         <h2 class="section-title">About Us</h2>
         <div class="about">
