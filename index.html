@@ -155,6 +155,101 @@
             box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.4);
         }
 
+        /* ==========================================================================
+           ROLEX NATIVE HORIZONTAL SCROLL SECTION (FIXED OVERLAPPING & PAGE BREAK)
+           ========================================================================== */
+        .rolex-portfolio-section {
+            width: 100%;
+            background: #111111; 
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .rolex-section-title {
+            color: #ffffff;
+            font-family: "Playfair Display", serif;
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        /* Yeh wrapper layout native sliding allow karega bina vertical scroll ko tode */
+        .rolex-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px 8% 40px 8%;
+            gap: 30px;
+        }
+
+        /* Hide Scrollbar for Chrome, Safari and Opera */
+        .rolex-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide Scrollbar for IE, Edge and Firefox */
+        .rolex-scroll-container {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+
+        .rolex-card {
+            width: 400px;
+            height: 520px;
+            flex-shrink: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            background: #222;
+            scroll-snap-align: start;
+        }
+
+        .rolex-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Text element styling to ensure absolutely NO overlaps */
+        .rolex-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px 30px;
+            color: #ffffff;
+            pointer-events: none;
+        }
+
+        .rolex-card-overlay h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #d4af37; 
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .rolex-card-overlay h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* ========================================================================== */
+
         .contact-info p {
             margin-bottom: 15px;
             font-size: 18px;
@@ -199,26 +294,6 @@
             font-family: "Playfair Display", serif;
             font-size: 42px;
             margin-bottom: 50px;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .gallery img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            cursor: pointer;
-        }
-
-        .gallery img:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
         }
 
         .films {
@@ -568,6 +643,7 @@
             box-shadow: 0 6px 15px rgba(37, 22, 76, 0.3);
         }
 
+        /* --- MOBILE MEDIA QUERIES --- */
         @media(max-width: 768px) {
             .hero {
                 background-attachment: scroll;
@@ -608,22 +684,14 @@
                 padding: 5px; 
             }
 
-            .menu-toggle.is-active .bar:nth-child(1) {
-                transform: translateY(9px) rotate(45deg);
-            }
-            .menu-toggle.is-active .bar:nth-child(2) {
-                opacity: 0;
-            }
-            .menu-toggle.is-active .bar:nth-child(3) {
-                transform: translateY(-9px) rotate(-45deg);
-            }
+            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
             .hero h1 { font-size: 42px; }
             .hero p { font-size: 15px; margin-bottom: 20px; }
             .section { padding: 60px 5%; }
             .section-title { font-size: 32px; margin-bottom: 35px; }
-            .gallery { grid-template-columns: 1fr; }
-            .gallery img { height: 300px; }
             .films { grid-template-columns: 1fr; }
             iframe { height: 220px; }
             
@@ -640,6 +708,20 @@
                 bottom: 20px;
                 right: 20px;
             }
+
+            /* Mobile slider optimization */
+            .rolex-card {
+                width: 290px;
+                height: 420px;
+            }
+            .rolex-card-overlay h2 {
+                font-size: 24px;
+            }
+            .rolex-scroll-container {
+                padding-left: 5%;
+                padding-right: 5%;
+                gap: 20px;
+            }
         }
 
         @media (max-width: 520px) {
@@ -647,12 +729,8 @@
                 max-height: 95vh;
                 border-radius: 16px;
             }
-            .modal-image {
-                height: 150px;
-            }
-            .modal-form-container {
-                padding: 20px 18px 25px 18px;
-            }
+            .modal-image { height: 150px; }
+            .modal-form-container { padding: 20px 18px 25px 18px; }
             .form-grid {
                 grid-template-columns: 1fr; 
                 gap: 12px;
@@ -669,11 +747,7 @@
                 font-size: 14px;
             }
             .modal-close {
-                top: 10px;
-                right: 12px;
-                width: 32px;
-                height: 32px;
-                font-size: 20px;
+                top: 10px; right: 12px; width: 32px; height: 32px; font-size: 20px;
             }
         }
     </style>
@@ -694,6 +768,7 @@
         <nav id="nav-menu">
             <a href="#">Event Services</a>
             <a href="makeup.html">Makeup Services</a>
+            <a href="#portfolio">Portfolio</a>
             <a href="#films">Films</a>
             <a href="#packages">Packages</a>
             <a href="#testimonials">Testimonials</a>
@@ -710,19 +785,58 @@
         </div>
     </section>
 
-    <section class="section reveal" id="portfolio">
-        <h2 class="section-title">Featured Portfolio</h2>
-        <div class="gallery">
-            <img src="Images/Picture 1.jpg" alt="Haldi Splash" loading="lazy">
-            <img src="Images/Picture 2.jpg" alt="Getting Ready" loading="lazy">
-            <img src="Images/Picture 3.jpg" alt="Kanyadaan" loading="lazy">
-            <img src="Images/Picture 4.jpg" alt="Jeevansathi" loading="lazy">
-            <img src="Images/Picture 5.jpg" alt="Bride" loading="lazy">
-            <img src="Images/Picture 13.jpg" alt="Varmala" loading="lazy">
-            <img src="Images/Picture 6.jpg" alt="Bride" loading="lazy">
-            <img src="Images/Picture 7.jpg" alt="Bridal Glow" loading="lazy">
-            <img src="Images/Picture 8.jpg" alt="Groom" loading="lazy">
-            <img src="Images/Picture 9.jpg" alt="Vidai" loading="lazy">
+    <section class="rolex-portfolio-section" id="portfolio">
+        <h2 class="rolex-section-title">Featured Portfolio</h2>
+        <div class="rolex-scroll-container">
+            
+            <div class="rolex-card">
+                <img src="Images/Picture 1.jpg" alt="The Haldi Splash">
+                <div class="rolex-card-overlay">
+                    <h3>Harvisha Presents</h3>
+                    <h2>The Haldi Splash</h2>
+                </div>
+            </div>
+
+            <div class="rolex-card">
+                <img src="Images/Picture 2.jpg" alt="Getting Ready">
+                <div class="rolex-card-overlay">
+                    <h3>Timeless Love</h3>
+                    <h2>Getting Ready</h2>
+                </div>
+            </div>
+
+            <div class="rolex-card">
+                <img src="Images/Picture 3.jpg" alt="The Kanyadaan">
+                <div class="rolex-card-overlay">
+                    <h3>Sacred Rituals</h3>
+                    <h2>The Kanyadaan</h2>
+                </div>
+            </div>
+
+            <div class="rolex-card">
+                <img src="Images/Picture 4.jpg" alt="Jeevansathi">
+                <div class="rolex-card-overlay">
+                    <h3>Cinematic Bond</h3>
+                    <h2>Jeevansathi</h2>
+                </div>
+            </div>
+
+            <div class="rolex-card">
+                <img src="Images/Picture 5.jpg" alt="The Royal Bride">
+                <div class="rolex-card-overlay">
+                    <h3>Elegance Redefined</h3>
+                    <h2>The Royal Bride</h2>
+                </div>
+            </div>
+
+            <div class="rolex-card">
+                <img src="Images/Picture 13.jpg" alt="The Varmala Vow">
+                <div class="rolex-card-overlay">
+                    <h3>Unveiled Joy</h3>
+                    <h2>The Varmala Vow</h2>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -846,12 +960,10 @@
         <a href="https://wa.me/916291275473" class="btn" target="_blank">Book Now On WhatsApp</a>
     </section>
 
-    <!-- Popup Modal Form (Formspree Ready) -->
     <div class="modal-overlay" id="leadModal">
         <div class="modal-box">
             <button class="modal-close" id="closeModal">&times;</button>
             <div class="modal-image">
-                <!-- Change image here (Line 422) -->
                 <img src="Images/Picture 13.jpg" alt="Harvisha Pictures Wedding">
             </div>
             <div class="modal-form-container">
@@ -886,6 +998,7 @@
     </a>
 
     <script>
+        // Standard Scroll Reveal Trigger Script
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -901,6 +1014,7 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
+        // Responsive Hamburger Nav Navigation Toggle
         const mobileMenu = document.getElementById('mobile-menu');
         const navMenu = document.getElementById('nav-menu');
 
@@ -916,6 +1030,7 @@
             });
         });
 
+        // Premium Timed Modal Management
         const leadModal = document.getElementById('leadModal');
         const closeModal = document.getElementById('closeModal');
         const popupForm = document.getElementById('popupForm');
@@ -936,36 +1051,30 @@
             }
         });
 
-        // --- FORMSPREE EMAIL SUBMISSION SCRIPT ---
+        // Formspree Integration Trigger
         popupForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const formData = new FormData(popupForm);
             const submitBtn = popupForm.querySelector('.modal-submit-btn');
             
             submitBtn.innerHTML = "Sending...";
             submitBtn.disabled = true;
 
-            // ⚠️ "your_formspree_id" ki jagah apna Formspree ID dalein
-            fetch('https://formspree.io/f/mjgdgdlk', {
+            fetch('https://formspree.io/f/your_formspree_id', {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             })
             .then(response => {
                 if (response.ok) {
-                    alert('Thank you! Your inquiry has been sent successfully. Our Team will Reach You Shortly');
+                    alert('Thank you! Your inquiry has been sent successfully.');
                     leadModal.classList.remove('show');
                     popupForm.reset();
                 } else {
                     alert('Oops! There was a problem submitting your form');
                 }
             })
-            .catch(error => {
-                alert('Oops! There was a problem submitting your form');
-            })
+            .catch(error => { alert('Oops! There was a problem submitting your form'); })
             .then(() => {
                 submitBtn.innerHTML = "Submit";
                 submitBtn.disabled = false;
