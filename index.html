@@ -578,7 +578,7 @@
         }
 
         /* ==========================================================================
-           ULTRA CLEAN & BUG-FREE POPUP MODAL ARCHITECTURE
+           MODAL OVERLAY SYSTEM DESIGN (BUG-FREE & NO TEXT OVERLAPPING)
            ========================================================================== */
         .modal-overlay {
             position: fixed;
@@ -607,7 +607,7 @@
         .modal-box {
             background: #ffffff;
             width: 100%;
-            max-width: 480px;
+            max-width: 520px;
             border-radius: 24px;
             overflow: hidden;
             position: relative;
@@ -648,7 +648,7 @@
 
         .modal-image {
             width: 100%;
-            height: 180px;
+            height: 185px;
             flex-shrink: 0;
             background-color: #111;
         }
@@ -674,11 +674,12 @@
             margin-bottom: 25px;
         }
 
-        /* Standardized inputs & selects */
+        /* Native Clean Text/Select formatting inputs */
         .modal-form-container input, 
         .modal-form-container select {
             width: 100%;
-            padding: 14px 20px;
+            height: 48px; /* Safe fixed structure size */
+            padding: 0 20px;
             border: 1px solid #cbd5e1;
             border-radius: 30px; 
             font-family: 'Montserrat', sans-serif;
@@ -689,26 +690,10 @@
             transition: all 0.3s ease;
         }
 
-        /* Standard Native Text Placeholder Mimicking for Date Field on Safari */
-        .modal-form-container input[type="date"] {
-            position: relative;
-            color: #1e293b;
-            content: attr(placeholder);
-        }
-
-        /* Native Cross Browser Date Placeholder implementation */
-        .modal-form-container input[type="date"]::before {
-            content: attr(placeholder);
-            position: absolute;
+        /* Clean placeholder text color */
+        .modal-form-container input::placeholder {
             color: #94a3b8;
-            left: 20px;
-            transition: all 0.2s ease;
-        }
-
-        .modal-form-container input[type="date"]:focus::before,
-        .modal-form-container input[type="date"]:valid::before {
-            display: none !important;
-            content: "";
+            opacity: 1;
         }
 
         .modal-form-container input:focus, 
@@ -721,11 +706,11 @@
         .modal-submit-btn {
             display: block;
             width: 70%;
+            height: 48px;
             margin: 0 auto;
             background: #25164c; 
             color: #ffffff;
             border: none;
-            padding: 14px 30px;
             border-radius: 30px;
             font-size: 15px;
             font-weight: 600;
@@ -828,7 +813,7 @@
             }
         }
 
-        /* --- PHONE MODAL LAYOUT SPECIFIC OPTIMIZATIONS --- */
+        /* --- SMARTPHONE UI SPECIFIC FIXES --- */
         @media (max-width: 520px) {
             .modal-overlay {
                 padding: 12px;
@@ -836,7 +821,7 @@
             }
 
             .modal-box {
-                max-height: 90vh; 
+                max-height: 85vh; 
                 border-radius: 20px;
             }
 
@@ -846,7 +831,7 @@
             } 
 
             .modal-form-container { 
-                padding: 16px 16px 25px 16px; 
+                padding: 16px; 
             }
 
             .form-grid {
@@ -857,21 +842,15 @@
 
             .modal-form-container input, 
             .modal-form-container select {
-                padding: 12px 16px;
+                padding: 0 16px;
                 font-size: 14px;
-                height: 46px; 
-            }
-
-            /* Custom text positioning adjustments for mobile Safari input date */
-            .modal-form-container input[type="date"]::before {
-                left: 16px;
+                height: 46px; /* Perfect matched height on phones */
             }
 
             .modal-submit-btn {
                 width: 100%; 
-                padding: 12px;
-                font-size: 14px;
                 height: 46px;
+                font-size: 14px;
             }
 
             .modal-close {
@@ -1043,7 +1022,7 @@
         <div class="stats-grid">
             <div class="stat-box">
                 <div class="stat-icon-wrapper">
-                    <i class="fa-solid fa-glass-cheers"></i>
+                    <i class="fa-solid fa-glass-checheers"></i>
                 </div>
                 <div class="stat-meta">
                     <span class="stat-number" data-target="800">0</span>
@@ -1144,6 +1123,7 @@
         <a href="https://wa.me/916291275473" class="btn" target="_blank">Book Now On WhatsApp</a>
     </section>
 
+    <!-- PERFECTLY ALIGNED MODAL WITH INTERACTIVE DYNAMIC DATE FIELD -->
     <div class="modal-overlay" id="leadModal">
         <div class="modal-box">
             <button class="modal-close" id="closeModal">&times;</button>
@@ -1153,7 +1133,9 @@
             <div class="modal-form-container">
                 <form id="popupForm">
                     <div class="form-grid">
-                        <input type="date" name="Event Date" required id="eventDate" placeholder="Select Event Date">
+                        <!-- Dynamic transformation logic from text to date field to eliminate layout breaks -->
+                        <input type="text" name="Event Date" required id="eventDate" placeholder="Select Event Date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+                        
                         <select name="Event Type" required>
                             <option value="" disabled selected>Select Event Type</option>
                             <option value="wedding">Wedding Photography</option>
