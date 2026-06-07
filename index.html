@@ -674,6 +674,7 @@
             margin-bottom: 25px;
         }
 
+        /* Standardized inputs & selects */
         .modal-form-container input, 
         .modal-form-container select {
             width: 100%;
@@ -688,6 +689,28 @@
             transition: all 0.3s ease;
         }
 
+        /* Standard Native Text Placeholder Mimicking for Date Field on Safari */
+        .modal-form-container input[type="date"] {
+            position: relative;
+            color: #1e293b;
+            content: attr(placeholder);
+        }
+
+        /* Native Cross Browser Date Placeholder implementation */
+        .modal-form-container input[type="date"]::before {
+            content: attr(placeholder);
+            position: absolute;
+            color: #94a3b8;
+            left: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .modal-form-container input[type="date"]:focus::before,
+        .modal-form-container input[type="date"]:valid::before {
+            display: none !important;
+            content: "";
+        }
+
         .modal-form-container input:focus, 
         .modal-form-container select:focus {
             border-color: #d4af37; 
@@ -695,7 +718,6 @@
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
         }
 
-        /* Premium Submit Button Styling */
         .modal-submit-btn {
             display: block;
             width: 70%;
@@ -801,13 +823,12 @@
             .stat-box { padding: 20px; }
             .stat-number { font-size: 32px; }
 
-            /* Strictly hides arrows on touch devices */
             .portfolio-arrow {
                 display: none !important;
             }
         }
 
-        /* --- THE ULTIMATE PHONE MODAL BUG FIX --- */
+        /* --- PHONE MODAL LAYOUT SPECIFIC OPTIMIZATIONS --- */
         @media (max-width: 520px) {
             .modal-overlay {
                 padding: 12px;
@@ -815,40 +836,42 @@
             }
 
             .modal-box {
-                max-height: 85vh; /* Standard high-end viewport bounding */
+                max-height: 90vh; 
                 border-radius: 20px;
             }
 
-            /* Premium Responsive Image View */
             .modal-image { 
                 display: block; 
                 height: 110px; 
             } 
 
             .modal-form-container { 
-                padding: 16px; 
+                padding: 16px 16px 25px 16px; 
             }
 
-            /* Single-column stack layout to save extreme spaces */
             .form-grid {
                 grid-template-columns: 1fr !important; 
                 gap: 12px;
                 margin-bottom: 18px;
             }
 
-            /* Standard padding adjustment to completely prevent date fields cutting off */
             .modal-form-container input, 
             .modal-form-container select {
                 padding: 12px 16px;
                 font-size: 14px;
-                height: 45px; /* Clean uniform field sizing */
+                height: 46px; 
+            }
+
+            /* Custom text positioning adjustments for mobile Safari input date */
+            .modal-form-container input[type="date"]::before {
+                left: 16px;
             }
 
             .modal-submit-btn {
                 width: 100%; 
                 padding: 12px;
                 font-size: 14px;
-                height: 45px;
+                height: 46px;
             }
 
             .modal-close {
@@ -1023,7 +1046,7 @@
                     <i class="fa-solid fa-glass-cheers"></i>
                 </div>
                 <div class="stat-meta">
-                    <span class="stat-number" data-target="300">0</span>
+                    <span class="stat-number" data-target="800">0</span>
                     <span class="stat-label">Weddings</span>
                 </div>
             </div>
@@ -1032,7 +1055,7 @@
                     <i class="fa-solid fa-camera-retro"></i>
                 </div>
                 <div class="stat-meta">
-                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-number" data-target="500">0</span>
                     <span class="stat-label">Pre Weddings</span>
                 </div>
             </div>
@@ -1041,7 +1064,7 @@
                     <i class="fa-solid fa-baby-carriage"></i>
                 </div>
                 <div class="stat-meta">
-                    <span class="stat-number" data-target="20">0</span>
+                    <span class="stat-number" data-target="250">0</span>
                     <span class="stat-label">Baby Photoshoots</span>
                 </div>
             </div>
@@ -1050,7 +1073,7 @@
                     <i class="fa-solid fa-city"></i>
                 </div>
                 <div class="stat-meta">
-                    <span class="stat-number" data-target="10">0</span>
+                    <span class="stat-number" data-target="20">0</span>
                     <span class="stat-label">Corporate & Interior</span>
                 </div>
             </div>
@@ -1130,7 +1153,7 @@
             <div class="modal-form-container">
                 <form id="popupForm">
                     <div class="form-grid">
-                        <input type="date" name="Event Date" required id="eventDate">
+                        <input type="date" name="Event Date" required id="eventDate" placeholder="Select Event Date">
                         <select name="Event Type" required>
                             <option value="" disabled selected>Select Event Type</option>
                             <option value="wedding">Wedding Photography</option>
