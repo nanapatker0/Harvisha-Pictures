@@ -97,24 +97,34 @@
             border-radius: 2px;
         }
 
+        /* --- UPDATED HERO & FIXED BACKGROUND WORKAROUND --- */
         .hero {
+            position: relative;
             height: 100vh;
             min-height: 550px;
-            background-color: #111111; 
-            background-image: linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)), url("Images/BG.jpg");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: white;
             padding: 80px 20px; 
+        }
+
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #111111; 
+            background-image: linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)), url("Images/BG.jpg");
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
             transition: background-image 0.1s ease-out;
         }
 
-        .hero > div {
+        .hero-content {
             transition: opacity 0.1s ease-out, transform 0.1s ease-out;
             will-change: opacity, transform;
             max-width: 800px;
@@ -844,47 +854,40 @@
         /* ==========================================================================
            IPAD & TABLET RESPONSIVE BREAKPOINT (max-width: 1024px)
            ========================================================================== */
-       @media (max-width: 1024px) {
-    /* Yeh naya block add karein */
-    .hero {
-        background-attachment: scroll;
-    }
-    
-    header {
-        padding: 15px 4%;
-    }
-    nav a {
-        margin-left: 15px;
-        font-size: 12px;
-    }
-    .hero h1 {
-        font-size: 52px;
-    }
-    .section {
-        padding: 70px 4%;
-    }
-    .section-title, .rolex-section-title, .budget-title {
-        font-size: 36px;
-    }
-    .rolex-card {
-        width: 340px;
-        height: 460px;
-    }
-    .budget-container {
-        gap: 25px;
-    }
-    .budget-image-wrapper {
-        height: 380px;
-    }
-}
-         
+        @media (max-width: 1024px) {
+            header {
+                padding: 15px 4%;
+            }
+            nav a {
+                margin-left: 15px;
+                font-size: 12px;
+            }
+            .hero h1 {
+                font-size: 52px;
+            }
+            .section {
+                padding: 70px 4%;
+            }
+            .section-title, .rolex-section-title, .budget-title {
+                font-size: 36px;
+            }
+            .rolex-card {
+                width: 340px;
+                height: 460px;
+            }
+            .budget-container {
+                gap: 25px;
+            }
+            .budget-image-wrapper {
+                height: 380px;
+            }
+        }
 
         /* ==========================================================================
            FIXED: MOBILE & SMALL SCREEN RESPONSIVE RE-ARCHITECTURE (max-width: 768px)
            ========================================================================== */
         @media(max-width: 768px) {
             .hero {
-                background-attachment: scroll;
                 padding: 100px 20px;
             }
 
@@ -896,7 +899,6 @@
                 display: flex; 
             }
 
-            /* Remodeled to perfectly overlay mobile layouts without cutoff */
             nav {
                 position: fixed;
                 top: 0;
@@ -911,7 +913,6 @@
                 justify-content: center;
                 gap: 25px;
                 
-                /* Layout visibility configurations */
                 opacity: 0;
                 pointer-events: none;
                 transform: scale(1.05);
@@ -1065,7 +1066,9 @@
     </header>
 
     <section class="hero">
-        <div>
+        <div class="hero-bg" id="heroBg"></div>
+        
+        <div class="hero-content">
             <h1>Harvisha Pictures</h1>
             <p>Luxury Wedding Photography & Cinematic Filmmaking</p>
             <a href="https://wa.me/916291275473" class="btn" target="_blank">Book Your Date</a>
@@ -1437,9 +1440,11 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
+        /* --- UPDATED SCROLL ANIMATION TARGETS --- */
         const heroSection = document.querySelector('.hero');
+        const heroBg = document.getElementById('heroBg'); // Target the new BG div
+        const heroContent = document.querySelector('.hero-content'); // Target new content wrapper
         const portfolioSection = document.getElementById('portfolio');
-        const heroContent = heroSection.querySelector('div');
 
         window.addEventListener('scroll', () => {
             const portfolioTop = portfolioSection.getBoundingClientRect().top;
@@ -1450,14 +1455,15 @@
                 if (fraction < 0) fraction = 0;
                 if (fraction > 1) fraction = 1;
 
-                heroSection.style.backgroundImage = `linear-gradient(rgba(17, 17, 17, ${fraction * 0.95 + 0.5}), rgba(17, 17, 17, ${fraction * 0.95 + 0.5})), url("Images/BG.jpg")`;
+                // Opacity changes happen on heroBg instead of heroSection
+                heroBg.style.backgroundImage = `linear-gradient(rgba(17, 17, 17, ${fraction * 0.95 + 0.5}), rgba(17, 17, 17, ${fraction * 0.95 + 0.5})), url("Images/BG.jpg")`;
                 
                 if (heroContent) {
                     heroContent.style.opacity = 1 - (fraction * 1.3);
                     heroContent.style.transform = `translateY(-${fraction * 20}px)`;
                 }
             } else {
-                heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)), url("Images/BG.jpg")`;
+                heroBg.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)), url("Images/BG.jpg")`;
                 if (heroContent) {
                     heroContent.style.opacity = 1;
                     heroContent.style.transform = `translateY(0px)`;
