@@ -689,6 +689,7 @@
             font-size: 20px;
         }
 
+        /* --- NEW FOOTER CSS --- */
         footer {
             background: #111111;
             color: white;
@@ -696,6 +697,36 @@
             padding: 40px 20px;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ffffff;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #d4af37;
+        }
+
+        @media(max-width: 768px) {
+            .footer-links {
+                gap: 15px;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        /* ------------------------ */
 
         .whatsapp {
             position: fixed;
@@ -1452,6 +1483,11 @@
     </div>
 
     <footer>
+        <div class="footer-links">
+            <a href="booking.html">Order Booking</a>
+            <a href="#blogs.html">Blogs</a>
+            <a href="#privacypolicy.html">Privacy Policy</a>
+        </div>
         <p style="margin-bottom: 5px;">© 2026 Harvisha Pictures</p>
         <p style="font-size: 13px; opacity: 0.7;">Wedding Photography & Cinematic Films</p>
     </footer>
