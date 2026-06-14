@@ -4,8 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#111111">
-    <meta name="description" content="Meet Harsh Pandey, the founder and creative force behind Harvisha Pictures Kolkata.">
-    <title>Meet the Founder | Harvisha Pictures</title>
+    
+    <!-- SEO Optimized Meta Tags -->
+    <title>Harsh Pandey - Founder, CEO & Owner of Harvisha Pictures</title>
+    <meta name="description" content="Meet Harsh Pandey, the Founder, CEO, and Owner of Harvisha Pictures. Discover the creative mind behind our cinematic storytelling and wedding films in Kolkata.">
+    <meta name="keywords" content="founder of harvisha, ceo of harvisha pictures, owner of harvisha pictures, Harsh Pandey, Harvisha Pictures Founder, best wedding photographer kolkata">
+    
+    <!-- Schema Markup for Google Entity Recognition (Crucial for SEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Harsh Pandey",
+      "jobTitle": ["Founder", "CEO", "Owner"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Harvisha Pictures"
+      },
+      "url": "https://www.harvishapictures.com/", 
+      "sameAs": [
+        "https://instagram.com/harsh.inr",
+        "https://facebook.com/harsh.inr"
+      ]
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -102,13 +124,25 @@
             object-fit: cover;
             display: block;
             transition: transform 0.5s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .img-top {
+            animation: imageFade 8s infinite ease-in-out;
         }
 
         .founder-image-wrapper:hover .founder-image-frame img {
             transform: scale(1.03);
         }
 
-        /* Decorative Gold Border Background Element */
+        @keyframes imageFade {
+            0%, 40% { opacity: 1; }
+            50%, 90% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
         .founder-image-wrapper::after {
             content: '';
             position: absolute;
@@ -156,7 +190,7 @@
         }
 
         .founder-title {
-            font-size: 15px;
+            font-size: 16px;
             color: #a0aec0;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -250,25 +284,30 @@
             
             <div class="founder-image-wrapper">
                 <div class="founder-image-frame">
-                    <img src="../images/founder.JPG" alt="Harsh Pandey - Founder Harvisha Pictures">
+                    <!-- SEO Optimized Alt Tags for Images -->
+                    <img src="../images/founder 2 .jpg" alt="Harsh Pandey - CEO and Owner of Harvisha Pictures" class="img-bottom">
+                    <img src="../images/founder.JPG" alt="Harsh Pandey - Founder of Harvisha Pictures Kolkata" class="img-top">
                 </div>
             </div>
 
             <div class="founder-content">
                 <span class="founder-tag">The Creative Mind</span>
-                <h1>Meet the Founder</h1>
-                <div class="founder-title">Harsh Pandey — Creative Force</div>
+                
+                <!-- SEO Optimized Headers -->
+                <h1>Harsh Pandey</h1>
+                <h2 class="founder-title">Founder of Harvisha Pictures</h2>
                 
                 <p class="founder-bio">
-                    Harsh Pandey is the founder and creative force behind Harvisha Pictures. A passionate filmmaker and event planner, he specializes in transforming emotions, stories, and celebrations into timeless visual experiences. With a keen eye for detail, cinematic storytelling, and a deep understanding of client expectations, Harsh has built a reputation for creating memorable wedding films, event coverage, and personalized visual content. His approach combines creativity, professionalism, and innovation to ensure every project reflects authenticity and elegance. Whether behind the camera capturing once-in-a-lifetime moments or planning events with precision and care, Harsh is dedicated to delivering exceptional experiences that leave a lasting impression.
+                    <!-- Keywords integrated naturally into the first sentence -->
+                    <strong>Harsh Pandey is the founder, CEO, and owner</strong> of Harvisha Pictures. A passionate filmmaker and event planner, he specializes in transforming emotions, stories, and celebrations into timeless visual experiences. With a keen eye for detail, cinematic storytelling, and a deep understanding of client expectations, Harsh has built a reputation for creating memorable wedding films, event coverage, and personalized visual content. His approach combines creativity, professionalism, and innovation to ensure every project reflects authenticity and elegance. Whether behind the camera capturing once-in-a-lifetime moments or planning events with precision and care, Harsh is dedicated to delivering exceptional experiences that leave a lasting impression.
                 </p>
 
                 <div class="founder-connect">
                     <span style="font-size: 13px; color: #a0aec0; letter-spacing: 1px; text-transform: uppercase;">Connect With Harsh</span>
                     <div class="founder-social">
-                        <a href="https://instagram.com/harsh.inr" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://facebook.com/harsh.inr" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://wa.me/916291275473" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://instagram.com/harsh.inr" target="_blank" title="Harsh Pandey Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://facebook.com/harsh.inr" target="_blank" title="Harsh Pandey Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://wa.me/916291275473" target="_blank" title="Chat with Founder on WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
