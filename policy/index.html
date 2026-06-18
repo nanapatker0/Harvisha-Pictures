@@ -78,6 +78,24 @@
             letter-spacing: 0.5px;
         }
 
+        /* Hamburger Menu Styling */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1001;
+            padding: 5px;
+        }
+
+        .menu-toggle .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
         /* Page Header */
         .page-header {
             padding: 180px 5% 80px;
@@ -159,7 +177,7 @@
             font-weight: 500;
         }
 
-        /* Footer (Matching Main Page) */
+        /* Footer */
         footer {
             background: #0a0a0a;
             color: white;
@@ -190,8 +208,51 @@
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
+            .menu-toggle { 
+                display: flex; 
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(17, 17, 17, 0.98);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 25px;
+                opacity: 0;
+                pointer-events: none;
+                transform: scale(1.05);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 999;
+            }
+
+            nav.nav-active {
+                opacity: 1;
+                pointer-events: auto;
+                transform: scale(1);
+            }
+
+            nav a {
+                margin: 0;
+                font-size: 16px;
+                letter-spacing: 1.5px;
+            }
+
+            .menu-toggle.is-active .bar {
+                background-color: #ffffff;
+            }
+
+            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
             .page-header h1 { font-size: 38px; }
-            nav { display: none; }
             .policy-section { padding: 25px 20px; }
             .policy-section h2 { font-size: 24px; }
         }
@@ -204,7 +265,15 @@
         <a href="../" class="logo">
             <img src="../images/logow.png" alt="Harvisha Pictures Logo">
         </a>
-        <nav>
+        
+        <!-- Hamburger Icon added here -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <nav id="nav-menu">
             <a href="../">Home</a>
             <a href="../#portfolio">Portfolio</a>
             <a href="../#contact">Contact</a>
@@ -313,14 +382,30 @@
     <!-- Footer -->
     <footer>
         <div class="footer-links">
-        
             <a href="../booking">Order Booking</a>
             <a href="../blogs">Blogs</a>
-            
         </div>
         <p style="margin-bottom: 5px; color: #cbd5e1;">© 2026 Harvisha Pictures | All Copyrights Reserved</p>
         <p style="font-size: 13px; color: #a0aec0; font-weight: 300;">Luxury Wedding Photography & Cinematic Films</p>
     </footer>
+
+    <!-- Hamburger Menu Script -->
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-active');
+            navMenu.classList.toggle('nav-active');
+        });
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('is-active');
+                navMenu.classList.remove('nav-active');
+            });
+        });
+    </script>
 
 </body>
 </html>
