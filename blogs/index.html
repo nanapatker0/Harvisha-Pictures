@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#111111">
+    
+    <title>Blogs & Journal | Harvisha Pictures | Kolkata Wedding Photographer</title>
+    <meta name="description" content="Explore wedding photography tips, pre-wedding shoot ideas, bridal makeup guides, and behind-the-scenes editing magic from Harvisha Pictures, Kolkata.">
+    <meta name="keywords" content="Harvisha Pictures, wedding photography blog, Kolkata wedding photographer, pre-wedding shoot Kolkata, bridal makeup tips, cinematic wedding films, candid wedding photography">
+    <meta name="author" content="Harvisha Pictures">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.harvishapictures.com/blogs.html"> <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.harvishapictures.com/blogs.html">
+    <meta property="og:title" content="Blogs & Journal | Harvisha Pictures | Kolkata Wedding Photography">
+    <meta property="og:description" content="Explore wedding photography tips, pre-wedding shoot ideas, bridal makeup guides, and behind-the-scenes editing magic from Harvisha Pictures.">
+    <meta property="og:image" content="https://www.harvishapictures.com/images/Picture 9.jpg"> <meta property="og:site_name" content="Harvisha Pictures">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://www.harvishapictures.com/blogs.html">
+    <meta name="twitter:title" content="Blogs & Journal | Harvisha Pictures">
+    <meta name="twitter:description" content="Explore wedding photography tips, pre-wedding shoot ideas, and bridal makeup guides from Harvisha Pictures, Kolkata.">
+    <meta name="twitter:image" content="https://www.harvishapictures.com/images/Picture 9.jpg">
+
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon.png">
+    <link class="apple-touch-icon" sizes="512x512" href="/images/favicon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Base Styles (Matching Main Site) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #fdfbf7; 
+            color: #111;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        /* Header & Nav */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+        }
+        .logo img {
+            max-height: 45px; 
+            width: auto;
+            display: block;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            margin-left: 20px;
+            color: #111;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active {
+            color: #d4af37;
+        }
+        
+        /* Mobile Menu Setup */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1001;
+            padding: 5px;
+        }
+        .menu-toggle .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #111;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Blog Hero Section */
+        .blog-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 80px 20px 0; 
+            background-color: #111111; 
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("images/Picture 9.jpg"); /* Replace with actual image path */
+            background-size: cover;
+            background-position: center 30%;
+        }
+        .blog-hero-content {
+            z-index: 2;
+            animation: slideUpFade 1s ease forwards;
+        }
+        .blog-hero h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 52px;
+            margin-bottom: 15px;
+            color: #d4af37;
+        }
+        .blog-hero p {
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Blog Grid Section */
+        .blog-section {
+            padding: 80px 5%;
+            background-color: #fdfbf7;
+        }
+        .blog-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #111;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #111;
+            color: #d4af37;
+            border-color: #111;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Blog Card Design */
+        .blog-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        .blog-img {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            position: relative;
+        }
+        .blog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .blog-card:hover .blog-img img {
+            transform: scale(1.08);
+        }
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(17, 17, 17, 0.85);
+            color: #d4af37;
+            padding: 5px 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+        .blog-content {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .blog-date {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .blog-title {
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        .blog-excerpt {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #111;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .read-more i {
+            font-size: 11px;
+            transition: transform 0.3s ease;
+        }
+        .read-more:hover {
+            color: #d4af37;
+        }
+        .read-more:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        footer {
+            background: #111111;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #ffffff;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #d4af37;
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            header { padding: 15px 5%; }
+            .menu-toggle { display: flex; }
+            nav {
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(255, 255, 255, 0.98); flex-direction: column;
+                align-items: center; justify-content: center; gap: 25px;
+                opacity: 0; pointer-events: none; transform: scale(1.05);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 999;
+            }
+            nav.nav-active { opacity: 1; pointer-events: auto; transform: scale(1); }
+            nav a { font-size: 16px; margin: 0; }
+            .menu-toggle.is-active { position: relative; z-index: 1001; }
+            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+            
+            .blog-hero h1 { font-size: 40px; }
+            .blog-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">
+            <img src="../images/logo.png" alt="Harvisha Pictures Logo">
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <nav id="nav-menu">
+            <a href="./">Home</a>
+            <a href="./#portfolio">Portfolio</a>
+            <a href="./#packages">Packages</a>
+            <a href="./#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="blog-hero">
+        <div class="blog-hero-content">
+            <h1>Behind the Lens</h1>
+            <p>Stories, Tips & Inspiration for Your Special Day</p>
+        </div>
+    </section>
+
+    <section class="blog-section">
+        <div class="blog-filter">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Pre-Wedding</button>
+            <button class="filter-btn">Wedding Events</button>
+            <button class="filter-btn">Bridal Makeup</button>
+            <button class="filter-btn">Photography Tips</button>
+        </div>
+
+        <div class="blog-grid">
+            
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Photography Tips</span>
+                    <img src="../images/Picture 15.jpg" alt="Candid Wedding Photography">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">March 15, 2026</div>
+                    <h2 class="blog-title">Candid vs. Traditional Photography: What Do You Really Need?</h2>
+                    <p class="blog-excerpt">Confused between candid shots and traditional stage poses? We break down the differences and explain why a mix of both creates the perfect wedding album.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Pre-Wedding</span>
+                    <img src="../images/Picture 16.jpg" alt="Kolkata Pre-wedding locations">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">March 02, 2026</div>
+                    <h2 class="blog-title">5 Hidden Gems for Pre-Wedding Shoots in Kolkata</h2>
+                    <p class="blog-excerpt">From colonial architecture to serene ghats, discover the most cinematic and less-crowded locations in Kolkata for your upcoming pre-wedding video shoot.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Bridal Makeup</span>
+                    <img src="../images/Picture 17.jpg" alt="Bridal Makeup Trial">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">February 18, 2026</div>
+                    <h2 class="blog-title">How to Choose the Perfect Makeup Artist for Your Big Day</h2>
+                    <p class="blog-excerpt">Your makeup looks different on camera than in the mirror. Here’s a guide to selecting an MUA whose style complements luxury, high-definition photography.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Culture & Festivals</span>
+                    <img src="../images/Picture 18.jpg" alt="Durga Puja Sindoor Khela">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">February 05, 2026</div>
+                    <h2 class="blog-title">Capturing the Magic of Durga Puja: Sindoor Khela Portraits</h2>
+                    <p class="blog-excerpt">There is nothing quite as vibrant as Bengali festivities. Explore our tips for capturing the raw, emotional beauty of tradition during the festive seasons.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Behind The Scenes</span>
+                    <img src="../images/Picture 19.jpg" alt="Video Editing Magic">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">January 22, 2026</div>
+                    <h2 class="blog-title">The Magic Behind the Edit: Perfecting Your Wedding Photos</h2>
+                    <p class="blog-excerpt">Ever wonder what happens after your wedding day? Take a peek into Harvisha Pictures' advanced color-grading and video editing workflow.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Wedding Events</span>
+                    <img src="../images/Picture 20.jpg" alt="Haldi Ceremony">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">January 10, 2026</div>
+                    <h2 class="blog-title">Haldi & Mehendi: Tips for Vibrant and Fun Photos</h2>
+                    <p class="blog-excerpt">Daytime events are filled with joy, color, and messy moments. Learn how to plan your decor and outfits to ensure your Haldi photos look absolutely cinematic.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Pre-Wedding</span>
+                    <img src="../images/Picture 21.jpg" alt="Pre-wedding outfits">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">December 28, 2025</div>
+                    <h2 class="blog-title">Outfit Ideas for a Cinematic Pre-Wedding Video</h2>
+                    <p class="blog-excerpt">Matching colors, flowing fabrics, and avoiding busy patterns. We share the ultimate styling guide to make you look like movie stars in your pre-wedding film.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Pre-Wedding</span>
+                    <img src="../images/Picture 22.jpg" alt="Diwali Theme Pre-wedding">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">November 15, 2025</div>
+                    <h2 class="blog-title">Planning a Diwali-Themed Pre-Wedding Shoot</h2>
+                    <p class="blog-excerpt">Warm diyas, sparkling sparklers, and traditional attire. Find out why incorporating the festival of lights into your couple shoot yields breathtaking results.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Planning</span>
+                    <img src="../images/Picture 23.jpg" alt="Wedding planning timeline">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">October 30, 2025</div>
+                    <h2 class="blog-title">A Complete Timeline for Booking Your Wedding Vendors</h2>
+                    <p class="blog-excerpt">When should you book your photographer? Or your makeup artist? Avoid last-minute stress with our comprehensive 12-month luxury wedding planning timeline.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Photography Tips</span>
+                    <img src="../images/Picture 24.jpg" alt="Cinematic wedding film">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">October 12, 2025</div>
+                    <h2 class="blog-title">Why You Absolutely Need a Cinematic Highlight Film</h2>
+                    <p class="blog-excerpt">Photos capture the moment, but video captures the voices, the music, and the motion. Discover why a 3-5 minute highlight film is our most requested service.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">Bridal Makeup</span>
+                    <img src="../images/Picture 25.jpg" alt="Bridal Skincare">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">September 25, 2025</div>
+                    <h2 class="blog-title">Top Skincare Tips Before Your Wedding Makeup Trial</h2>
+                    <p class="blog-excerpt">Flawless makeup starts with a flawless canvas. Check out our pre-wedding skincare checklist to ensure that bridal glow shines through the camera lens.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-img">
+                    <span class="category-badge">General</span>
+                    <img src="../images/Picture 26.jpg" alt="Wedding Consultation">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">September 05, 2025</div>
+                    <h2 class="blog-title">What to Expect During Your Harvisha Pictures Consultation</h2>
+                    <p class="blog-excerpt">From discussing your vision board to customizing budget packages, here is a step-by-step look at how we tailor our services specifically for your grand event.</p>
+                    <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../">Home</a>
+            <a href="./booking/">Order Booking</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p style="margin-bottom: 5px;">© 2026 Harvisha Pictures | All Copyrights Reserved</p>
+        <p style="font-size: 13px; opacity: 0.7;">Wedding Photography & Cinematic Films</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+
+            // Mobile Menu Toggle
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-active');
+                navMenu.classList.toggle('nav-active');
+            });
+
+            // Blog Filter Functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const blogCards = document.querySelectorAll('.blog-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 1. Update active button styling
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // 2. Get the selected category (converted to lowercase for easy matching)
+                    const filterValue = btn.textContent.trim().toLowerCase();
+
+                    // 3. Show or hide cards based on the selected category
+                    blogCards.forEach(card => {
+                        const cardCategory = card.querySelector('.category-badge').textContent.trim().toLowerCase();
+                        
+                        if (filterValue === 'all') {
+                            // Show all cards if 'All' is selected
+                            // Using 'flex' because your .blog-card CSS uses display: flex
+                            card.style.display = 'flex'; 
+                        } else if (cardCategory === filterValue) {
+                            // Show card if the badge matches the button text
+                            card.style.display = 'flex';
+                        } else {
+                            // Hide card if it doesn't match
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
