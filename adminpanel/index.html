@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Command Center | Harvisha Pictures</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            background-color: #0a0a0a; 
+            color: #ffffff; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at top right, #1f1a0d, #0a0a0a);
+        }
+
+        .admin-container {
+            background: rgba(20, 20, 20, 0.95);
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+        }
+
+        h2 { text-align: center; color: #D4AF37; font-size: 20px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+        .input-group { margin-bottom: 15px; }
+        
+        input {
+            width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff;
+            font-size: 14px; outline: none; transition: all 0.3s ease;
+        }
+
+        input:focus { border-color: #D4AF37; background: rgba(255, 255, 255, 0.07); }
+
+        button {
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #D4AF37, #b5952f);
+            color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 15px;
+            cursor: pointer; transition: transform 0.2s; margin-top: 10px;
+        }
+
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
+
+        .divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 25px 0; }
+        .status-msg { text-align: center; margin-top: 15px; font-size: 13px; font-weight: 400; }
+        #admin-dashboard { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    
+    <!-- ADMIN LOGIN SECTION -->
+    <div id="admin-login">
+        <h2>🔒 Admin Access</h2>
+        <div class="input-group">
+            <input type="email" id="adminEmail" placeholder="Admin Email ID">
+        </div>
+        <div class="input-group">
+            <input type="password" id="adminPassword" placeholder="Admin Password">
+        </div>
+        <button onclick="loginAdmin()">Verify Identity</button>
+        <p id="login-status" class="status-msg" style="color: #ff4d4d;"></p>
+    </div>
+
+    <!-- ADMIN DASHBOARD SECTION -->
+    <div id="admin-dashboard">
+        <h2>➕ Create Client Portal</h2>
+        
+        <div class="input-group">
+            <input type="email" id="clientEmail" placeholder="Client Login Email (Username)">
+        </div>
+        <div class="input-group">
+            <input type="text" id="clientPassword" placeholder="Client Login Password">
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="input-group">
+            <input type="text" id="brideName" placeholder="Bride's Name (e.g., Neha)">
+        </div>
+        <div class="input-group">
+            <input type="text" id="groomName" placeholder="Groom's Name (e.g., Rahul)">
+        </div>
+        <div class="input-group">
+            <input type="date" id="weddingDate">
+        </div>
+        <div class="input-group">
+            <input type="text" id="weddingLocation" placeholder="Location (e.g., The Taj Palace, Delhi)">
+        </div>
+        <div class="input-group">
+            <input type="url" id="driveLink" placeholder="Google Drive Gallery Link">
+        </div>
+        
+        <button onclick="createClient()">Generate Client Portal</button>
+        <p id="create-status" class="status-msg"></p>
+    </div>
+
+</div>
+
+<script>
+    // Aapki Real Firebase Config Yahan Hai
+    const firebaseConfig = {
+      apiKey: "AIzaSyDW2s0BuiUhr7Xv22gZUfqCpdbCqR_LbFc",
+      authDomain: "harvishaclient-portal.firebaseapp.com",
+      projectId: "harvishaclient-portal",
+      storageBucket: "harvishaclient-portal.firebasestorage.app",
+      messagingSenderId: "630804126643",
+      appId: "1:630804126643:web:317c48d0ec6a31f4a509c6"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    async function loginAdmin() {
+        const email = document.getElementById('adminEmail').value;
+        const pass = document.getElementById('adminPassword').value;
+        const status = document.getElementById('login-status');
+        
+        status.innerText = "Verifying..."; status.style.color = "#D4AF37";
+
+        try {
+            await auth.signInWithEmailAndPassword(email, pass);
+            document.getElementById('admin-login').style.display = 'none';
+            document.getElementById('admin-dashboard').style.display = 'block';
+        } catch (error) {
+            status.innerText = "Access Denied: Invalid Credentials"; status.style.color = "#ff4d4d";
+        }
+    }
+
+    async function createClient() {
+        const email = document.getElementById('clientEmail').value;
+        const pass = document.getElementById('clientPassword').value;
+        const status = document.getElementById('create-status');
+        
+        if(!email || !pass) {
+            status.innerText = "Email and Password are required!"; status.style.color = "#ff4d4d";
+            return;
+        }
+
+        status.innerText = "Creating secure portal..."; status.style.color = "#D4AF37";
+
+        try {
+            await auth.createUserWithEmailAndPassword(email, pass);
+            
+            await db.collection('clients').doc(email).set({
+                bride: document.getElementById('brideName').value,
+                groom: document.getElementById('groomName').value,
+                date: document.getElementById('weddingDate').value,
+                location: document.getElementById('weddingLocation').value,
+                driveUrl: document.getElementById('driveLink').value
+            });
+
+            status.innerText = "✅ Portal created successfully! Reloading..."; status.style.color = "#28a745";
+            
+            setTimeout(() => {
+                auth.signOut();
+                window.location.reload();
+            }, 2500);
+            
+        } catch (error) {
+            status.innerText = "Error: " + error.message; status.style.color = "#ff4d4d";
+        }
+    }
+</script>
+
+</body>
+</html>
