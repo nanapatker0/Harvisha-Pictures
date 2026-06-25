@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Safari zoom aur width fix -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Client Lounge | Harvisha Pictures</title>
     
-    <!-- Aapka Favicon Update -->
     <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon.png">
     <link class="apple-touch-icon" sizes="512x512" href="/images/favicon.png">
     
@@ -19,32 +19,37 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-        /* Mobile Fixes Applied Here */
+        /* iPhone Negative Space STRICT FIX */
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden; /* Yeh line bahar nikle hue blobs ko side me jagah banane se rokegi */
+            background-color: #000000; 
+        }
+
         body { 
-            min-height: 100vh; 
-            min-height: 100dvh; 
-            width: 100vw;
+            min-height: 100vh;
+            min-height: -webkit-fill-available; /* iOS specific height fix */
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            background-color: #000000; 
-            overflow: hidden; 
             position: relative; 
+            overflow: hidden; /* Scroll completely band */
         }
 
         .color-blob { position: absolute; filter: blur(80px); z-index: 0; animation: float 10s infinite alternate ease-in-out; }
-        .blob-1 { width: 350px; height: 350px; background: rgba(212, 175, 55, 0.4); top: -100px; left: -100px; border-radius: 50%; }
-        .blob-2 { width: 400px; height: 400px; background: rgba(43, 43, 43, 0.8); bottom: -150px; right: -100px; border-radius: 50%; animation-delay: 2s; }
-        .blob-3 { width: 250px; height: 250px; background: rgba(255, 255, 255, 0.1); top: 40%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; animation-duration: 15s; }
+        .blob-1 { width: 350px; height: 350px; background: rgba(212, 175, 55, 0.4); top: -50px; left: -50px; border-radius: 50%; }
+        .blob-2 { width: 400px; height: 400px; background: rgba(43, 43, 43, 0.8); bottom: -100px; right: -50px; border-radius: 50%; animation-delay: 2s; }
+        .blob-3 { width: 250px; height: 250px; background: rgba(255, 255, 255, 0.1); top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; animation-duration: 15s; }
 
         @keyframes float { 0% { transform: translateY(0px) scale(1); } 100% { transform: translateY(30px) scale(1.1); } }
 
-        /* Panel Width Fix for Phone */
+        /* Panel strictly locked in center */
         .glass-panel { 
             position: relative; 
             z-index: 1; 
-            width: 88%; 
-            max-width: 420px; 
+            width: 90%; /* Mobile side margins */
+            max-width: 400px; 
             padding: 40px 25px; 
             background: rgba(255, 255, 255, 0.03); 
             backdrop-filter: blur(24px); 
@@ -54,6 +59,7 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); 
             text-align: center; 
             color: #ffffff; 
+            margin: 0 auto;
         }
 
         .glass-panel h1 { font-size: 20px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #D4AF37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -95,7 +101,6 @@
     <div class="glass-panel">
         <h1>Harvisha Pictures</h1>
         
-        <!-- LOGIN SCREEN -->
         <div id="login-section">
             <p class="subtitle">Client Portal</p>
             <div class="input-group">
@@ -111,7 +116,6 @@
             <p id="status-msg"></p>
         </div>
 
-        <!-- DASHBOARD SCREEN -->
         <div id="dashboard-section">
             <p class="subtitle" style="text-align: center; margin-bottom: 5px;">Wedding Collection</p>
             <div class="couple-name" id="displayNames">Rahul & Neha</div>
@@ -139,7 +143,6 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        // Password Show/Hide Function
         function toggleVisibility(inputId, icon) {
             const inputField = document.getElementById(inputId);
             if (inputField.type === "password") {
@@ -178,7 +181,6 @@
                     document.getElementById('displayDate').innerText = data.date;
                     document.getElementById('displayLocation').innerText = data.location;
                     
-                    // NEW TAB UPDATE HERE
                     document.getElementById('driveButton').onclick = function() {
                         window.open(data.driveUrl, '_blank');
                     };
