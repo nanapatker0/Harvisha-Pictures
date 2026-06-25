@@ -9,10 +9,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     
-    <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon.png">
-    <link class="apple-touch-icon" sizes="512x512" href="/images/favicon.png">
-
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
@@ -32,7 +28,15 @@
         .glass-panel h1 { font-size: 20px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #D4AF37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .glass-panel p.subtitle { font-size: 14px; font-weight: 300; color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; }
 
-        .input-group { margin-bottom: 20px; text-align: left; }
+        /* Updated Input Group for Password Icon */
+        .input-group { position: relative; margin-bottom: 20px; text-align: left; }
+        
+        .toggle-icon {
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            cursor: pointer; font-size: 18px; user-select: none; opacity: 0.6; transition: 0.3s;
+        }
+        .toggle-icon:hover { opacity: 1; }
+
         input { width: 100%; padding: 16px 20px; font-size: 15px; color: #ffffff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; outline: none; transition: all 0.3s ease; }
         input::placeholder { color: rgba(255, 255, 255, 0.4); }
         input:focus { background: rgba(255, 255, 255, 0.08); border-color: rgba(212, 175, 55, 0.5); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
@@ -69,6 +73,7 @@
             </div>
             <div class="input-group">
                 <input type="password" id="password" placeholder="Password">
+                <span class="toggle-icon" onclick="toggleVisibility('password', this)">👁️</span>
             </div>
             <button class="btn-gold" onclick="login()">Sign In</button>
             <br>
@@ -87,12 +92,11 @@
                 <p><strong>Status:</strong> Digital assets are ready.</p>
             </div>
 
-            <button class="btn-gold" id="driveButton" onclick="window.location.href='#'">View Your Gallery</button>
+            <button class="btn-gold" id="driveButton">View Your Gallery</button>
         </div>
     </div>
 
     <script>
-        // Aapki Real Firebase Config Yahan Hai
         const firebaseConfig = {
           apiKey: "AIzaSyDW2s0BuiUhr7Xv22gZUfqCpdbCqR_LbFc",
           authDomain: "harvishaclient-portal.firebaseapp.com",
@@ -104,6 +108,18 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
+
+        // Password Show/Hide Function
+        function toggleVisibility(inputId, icon) {
+            const inputField = document.getElementById(inputId);
+            if (inputField.type === "password") {
+                inputField.type = "text";
+                icon.innerText = "🙈"; 
+            } else {
+                inputField.type = "password";
+                icon.innerText = "👁️"; 
+            }
+        }
 
         async function login() {
             const email = document.getElementById('email').value;
@@ -132,8 +148,9 @@
                     document.getElementById('displayDate').innerText = data.date;
                     document.getElementById('displayLocation').innerText = data.location;
                     
+                    // NEW TAB UPDATE HERE
                     document.getElementById('driveButton').onclick = function() {
-                        window.location.href = data.driveUrl;
+                        window.open(data.driveUrl, '_blank');
                     };
 
                     document.getElementById('login-section').style.display = 'none';
