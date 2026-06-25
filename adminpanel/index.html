@@ -15,35 +15,33 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { 
-            background-color: #0a0a0a; 
-            color: #ffffff; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh;
-            padding: 20px;
-            background-image: radial-gradient(circle at top right, #1f1a0d, #0a0a0a);
+            background-color: #0a0a0a; color: #ffffff; display: flex; 
+            justify-content: center; align-items: center; min-height: 100vh;
+            padding: 20px; background-image: radial-gradient(circle at top right, #1f1a0d, #0a0a0a);
         }
 
         .admin-container {
-            background: rgba(20, 20, 20, 0.95);
-            width: 100%;
-            max-width: 480px;
-            padding: 40px;
-            border-radius: 16px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(20, 20, 20, 0.95); width: 100%; max-width: 480px;
+            padding: 40px; border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.2);
             box-shadow: 0 15px 35px rgba(0,0,0,0.8);
         }
 
         h2 { text-align: center; color: #D4AF37; font-size: 20px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
-        .input-group { margin-bottom: 15px; }
+        
+        /* Updated Input Group for Password Icon */
+        .input-group { position: relative; margin-bottom: 15px; }
+        
+        .toggle-icon {
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            cursor: pointer; font-size: 18px; user-select: none; opacity: 0.6; transition: 0.3s;
+        }
+        .toggle-icon:hover { opacity: 1; }
         
         input {
             width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff;
             font-size: 14px; outline: none; transition: all 0.3s ease;
         }
-
         input:focus { border-color: #D4AF37; background: rgba(255, 255, 255, 0.07); }
 
         button {
@@ -51,7 +49,6 @@
             color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 15px;
             cursor: pointer; transition: transform 0.2s; margin-top: 10px;
         }
-
         button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
 
         .divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 25px 0; }
@@ -71,6 +68,7 @@
         </div>
         <div class="input-group">
             <input type="password" id="adminPassword" placeholder="Admin Password">
+            <span class="toggle-icon" onclick="toggleVisibility('adminPassword', this)">👁️</span>
         </div>
         <button onclick="loginAdmin()">Verify Identity</button>
         <p id="login-status" class="status-msg" style="color: #ff4d4d;"></p>
@@ -84,7 +82,8 @@
             <input type="email" id="clientEmail" placeholder="Client Login Email (Username)">
         </div>
         <div class="input-group">
-            <input type="text" id="clientPassword" placeholder="Client Login Password">
+            <input type="password" id="clientPassword" placeholder="Client Login Password">
+            <span class="toggle-icon" onclick="toggleVisibility('clientPassword', this)">👁️</span>
         </div>
         
         <div class="divider"></div>
@@ -112,7 +111,6 @@
 </div>
 
 <script>
-    // Aapki Real Firebase Config Yahan Hai
     const firebaseConfig = {
       apiKey: "AIzaSyDW2s0BuiUhr7Xv22gZUfqCpdbCqR_LbFc",
       authDomain: "harvishaclient-portal.firebaseapp.com",
@@ -124,6 +122,18 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const auth = firebase.auth();
+
+    // Password Show/Hide Function
+    function toggleVisibility(inputId, icon) {
+        const inputField = document.getElementById(inputId);
+        if (inputField.type === "password") {
+            inputField.type = "text";
+            icon.innerText = "🙈"; 
+        } else {
+            inputField.type = "password";
+            icon.innerText = "👁️"; 
+        }
+    }
 
     async function loginAdmin() {
         const email = document.getElementById('adminEmail').value;
