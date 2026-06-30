@@ -19,8 +19,8 @@
     <meta property="og:image" content="https://www.harvishapictures.in/images/Picture%201.jpg">
     <meta property="og:url" content="https://www.harvishapictures.in/gallery.html">
 
-    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../images/favicon.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="../images/favicon.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -424,7 +424,7 @@
 
             // --- AUTO IMAGE LOADER ---
             function loadImagesAuto(data, index) {
-                const imagePath = `./our portfolio/${data.folder}/${data.prefix} (${index}).jpg`;
+                const imagePath = `../our portfolio/${data.folder}/${data.prefix} (${index}).jpg`;
                 const testerImg = new Image();
                 
                 testerImg.onload = function() {
