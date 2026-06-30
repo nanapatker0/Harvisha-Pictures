@@ -364,6 +364,47 @@
         .portfolio-arrow.prev { left: 2%; }
         .portfolio-arrow.next { right: 2%; }
 
+
+        .view-more-container {
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .portfolio-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 35px;
+            background: transparent;
+            color: #d4af37; /* Luxury Gold */
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: 1px solid #d4af37;
+            border-radius: 40px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+        }
+
+        .portfolio-btn:hover {
+            background: #d4af37;
+            color: #111111;
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+            transform: translateY(-4px);
+        }
+        
+        /* Mobile spacing adjustment */
+        @media (max-width: 1024px) {
+            .view-more-container {
+                margin-top: 35px;
+            }
+        }
+        
+        
         .stats-section {
             background-color: #f6f5fa;
             padding: 80px 5%;
@@ -1268,6 +1309,13 @@
                 </div>
             </div>
         </div>
+
+        <div class="view-more-container">
+        <a href="#" class="portfolio-btn">
+            View More <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </div>
+        
     </section>
 
     <section class="section reveal bg-cream" id="films">
