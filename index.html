@@ -1362,7 +1362,29 @@
             gap: 10px;
         }
 
-        
+        /* ==========================================
+           DYNAMIC BLEND BACKGROUND (PRE-WEDDING)
+           ========================================== */
+        .dynamic-blend-bg {
+            /* Black se shuru hoke cream me smoothly melt hoga */
+            background: linear-gradient(180deg, #111111 0%, #1e1b12 8%, #fdfbf7 25%, #fdfbf7 100%) !important;
+            padding-top: 40px !important;
+            padding-bottom: 80px !important;
+            padding-left: 0 !important; 
+            padding-right: 0 !important;
+        }
+
+        .dynamic-blend-bg .rolex-scroll-container {
+            padding-left: 5% !important; 
+            padding-right: 5% !important;
+        }
+
+        /* Hover effect par dark buttons taaki blend bg pe dikhe */
+        #prewedPrevBtn:hover, #prewedNextBtn:hover {
+            background: #111111 !important;
+            color: #d4af37 !important;
+            border-color: #111111 !important;
+        }
         
     </style>
 </head>
@@ -1481,7 +1503,7 @@
     <!-- CREATIVE LUXURY DIVIDER END -->
     
     <section class="rolex-portfolio-section reveal" id="films" style="background: #111111; padding: 80px 0;">
-        <h2 class="rolex-section-title">Latest Wedding Films</h2>
+        <h2 class="rolex-section-title">Wedding Films</h2>
         
         <div class="rolex-slider-wrapper">
             <button class="portfolio-arrow prev" id="filmsPrevBtn" title="Previous"><i class="fa-solid fa-chevron-left"></i></button>
@@ -1493,13 +1515,16 @@
         </div>
     </section>
 
-    <section class="section reveal">
-        <h2 class="section-title">Pre-Wedding Films</h2>
-        <div class="films">
-            <iframe src="https://www.youtube.com/embed/0nw3RqORLZw?si=x_C1f4ZUHke3iIJz" title="Pre Wedding Film 1" loading="lazy" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/wSmXP900M9U?si=vMsT41gSyAa1XdDv" title="Pre Wedding Film 2" loading="lazy" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/1tWyJ9S1XFE?si=pSL4QQvqXLd7dsiU" title="Pre Wedding Film 3" loading="lazy" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/GdekhU4m938?si=AbcT6Z0sBHfqR2-k" title="Pre Wedding Film 4" loading="lazy" allowfullscreen></iframe>
+    <section class="rolex-portfolio-section reveal dynamic-blend-bg" id="pre-wedding-films">
+        <h2 class="section-title" style="color: #111111; margin-top: 40px; margin-bottom: 40px;">Pre-Wedding Films</h2>
+        
+        <div class="rolex-slider-wrapper">
+            <button class="portfolio-arrow prev" id="prewedPrevBtn" title="Previous" style="background: rgba(17,17,17,0.1); border-color: #111; color: #111;"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="portfolio-arrow next" id="prewedNextBtn" title="Next" style="background: rgba(17,17,17,0.1); border-color: #111; color: #111;"><i class="fa-solid fa-chevron-right"></i></button>
+            
+            <div class="rolex-scroll-container" id="prewed-slider-container">
+                <p style="text-align: center; width: 100%; font-size: 16px; color: #d4af37; letter-spacing: 1px;">Loading pre-wedding films...</p>
+            </div>
         </div>
     </section>
 
@@ -2177,6 +2202,95 @@
                 });
             }
         });
+
+        // ==========================================
+        // PRE-WEDDING PLAYLIST SLIDER LOGIC
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aapki Pre-Wedding Playlist ID yahan add kar di gayi hai 👇
+            const prewedPlaylistId = 'PLLokPalHxmMQ'; 
+            
+            const prewedRssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${prewedPlaylistId}`;
+            const prewedApiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(prewedRssUrl)}`;
+            const prewedContainer = document.getElementById('prewed-slider-container');
+            
+            // Auto Scroll Setup
+            window.prewedAutoScrollInterval = null;
+            const scrollDelay = 3500; 
+
+            function startPrewedAutoScroll() {
+                if(!window.prewedAutoScrollInterval) {
+                    window.prewedAutoScrollInterval = setInterval(() => {
+                        if (prewedContainer.scrollLeft + prewedContainer.clientWidth >= prewedContainer.scrollWidth - 10) {
+                            prewedContainer.scrollTo({ left: 0, behavior: 'smooth' });
+                        } else {
+                            const cardWidth = prewedContainer.querySelector('.rolex-video-card').clientWidth;
+                            prewedContainer.scrollBy({ left: cardWidth + 25, behavior: 'smooth' });
+                        }
+                    }, scrollDelay);
+                }
+            }
+
+            function stopPrewedAutoScroll() {
+                clearInterval(window.prewedAutoScrollInterval);
+                window.prewedAutoScrollInterval = null;
+            }
+
+            fetch(prewedApiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'ok' && data.items.length > 0) {
+                        prewedContainer.innerHTML = ''; 
+                        
+                        data.items.forEach(item => {
+                            let videoId = item.link.split('v=')[1];
+                            let rawTitle = item.title;
+                            let shortTitle = rawTitle.length > 40 ? rawTitle.substring(0, 40) + '...' : rawTitle;
+
+                            const cardHTML = `
+                                <div class="rolex-video-card" onclick="playVideo(this, '${videoId}')">
+                                    <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" class="thumbnail" alt="Pre Wedding Film">
+                                    <div class="play-icon-overlay"><i class="fa-solid fa-play"></i></div>
+                                    <div class="rolex-card-overlay">
+                                        <h3 style="color: #ffffff; opacity: 0.8;">Harvisha Pre-Weddings</h3>
+                                        <h2>${shortTitle}</h2>
+                                    </div>
+                                </div>
+                            `;
+                            prewedContainer.innerHTML += cardHTML;
+                        });
+
+                        startPrewedAutoScroll();
+                        prewedContainer.addEventListener('mouseenter', stopPrewedAutoScroll);
+                        prewedContainer.addEventListener('mouseleave', startPrewedAutoScroll);
+                        prewedContainer.addEventListener('touchstart', stopPrewedAutoScroll, {passive: true});
+                        prewedContainer.addEventListener('touchend', startPrewedAutoScroll, {passive: true});
+
+                    } else {
+                        prewedContainer.innerHTML = '<p style="text-align:center; width:100%; color:#111111;">No pre-wedding videos found.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error("Error loading pre-wedding videos: ", error);
+                    prewedContainer.innerHTML = '<p style="text-align:center; width:100%; color:#111111;">Could not load videos.</p>';
+                });
+
+            // Pre-Wedding Manual Arrows Control
+            const prewedPrevBtn = document.getElementById('prewedPrevBtn');
+            const prewedNextBtn = document.getElementById('prewedNextBtn');
+
+            if (prewedNextBtn && prewedPrevBtn && prewedContainer) {
+                prewedNextBtn.addEventListener('click', () => {
+                    stopPrewedAutoScroll();
+                    prewedContainer.scrollBy({ left: 380, behavior: 'smooth' });
+                });
+                prewedPrevBtn.addEventListener('click', () => {
+                    stopPrewedAutoScroll();
+                    prewedContainer.scrollBy({ left: -380, behavior: 'smooth' });
+                });
+            }
+        });
+        
     </script>
 
 </body>
