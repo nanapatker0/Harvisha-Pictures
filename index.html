@@ -1437,8 +1437,7 @@
         
     </section>
 
-    <section class="section reveal bg-cream" id="films">
-    
+    <section class="rolex-portfolio-section reveal" id="films" style="background: #111111; padding: 80px 0;">
         <h2 class="rolex-section-title">Latest Wedding Films</h2>
         
         <div class="rolex-slider-wrapper">
@@ -1446,7 +1445,6 @@
             <button class="portfolio-arrow next" id="filmsNextBtn" title="Next"><i class="fa-solid fa-chevron-right"></i></button>
             
             <div class="rolex-scroll-container" id="youtube-slider-container">
-                <!-- Videos automatically load honge yahan -->
                 <p style="text-align: center; width: 100%; font-size: 16px; color: #d4af37; letter-spacing: 1px;">Loading cinematic films...</p>
             </div>
         </div>
@@ -2026,120 +2024,28 @@
             document.head.appendChild(style);
             typeAnimation();
         });
-    // ==========================================
-        // YOUTUBE PLAYLIST AUTOMATIC SLIDER LOGIC
+
         // ==========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Aapki Playlist ID
-            const playlistId = 'PLELheYN-Bsu4';
-            
-            // YouTube RSS feed ko JSON me convert karne ke liye free API
-            const rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
-            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
-            const container = document.getElementById('youtube-slider-container');
-
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    if(data.status === 'ok' && data.items.length > 0) {
-                        container.innerHTML = ''; // Loading text ko remove karega
-                        
-                        data.items.forEach(item => {
-                            let videoId = item.link.split('v=')[1];
-                            const cardHTML = `
-                                <div class="video-card">
-                                    <iframe 
-                                        style="width: 100%; height: 100%; border: none;" 
-                                        src="https://www.youtube.com/embed/${videoId}?rel=0" 
-                                        title="${item.title}" 
-                                        loading="lazy" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                        allowfullscreen>
-                                    </iframe>
-                                </div>
-                            `;
-                            container.innerHTML += cardHTML;
-                        });
-
-                        // ----------------------------------------------------
-                        // ✨ SMART AUTO-SCROLL LOGIC START
-                        // ----------------------------------------------------
-                        let autoScrollInterval;
-                        const scrollDelay = 1500; // 3000 = 3 Seconds (Aap ise badal sakte hain)
-
-                        function startAutoScroll() {
-                            autoScrollInterval = setInterval(() => {
-                                // Agar slider bilkul end me pahunch gaya hai, toh start me wapas jao
-                                if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-                                    container.scrollTo({ left: 0, behavior: 'smooth' });
-                                } else {
-                                    // Ek card aage scroll karo
-                                    container.scrollBy({ left: 380, behavior: 'smooth' });
-                                }
-                            }, scrollDelay);
-                        }
-
-                        function stopAutoScroll() {
-                            clearInterval(autoScrollInterval);
-                        }
-
-                        // Scroll start karo
-                        startAutoScroll();
-
-                        // Jab user video pe hover ya touch kare, toh scroll rok do taaki wo play kar sakein
-                        container.addEventListener('mouseenter', stopAutoScroll);
-                        container.addEventListener('mouseleave', startAutoScroll);
-                        container.addEventListener('touchstart', stopAutoScroll);
-                        container.addEventListener('touchend', startAutoScroll);
-                        // ----------------------------------------------------
-
-                    } else {
-                        container.innerHTML = '<p style="text-align:center; width:100%;">No videos found in playlist.</p>';
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching YouTube videos: ", error);
-                    container.innerHTML = '<p style="text-align:center; width:100%;">Could not load videos.</p>';
-                });
-
-            // Slider Left/Right Manual Controls
-            const filmsPrevBtn = document.getElementById('filmsPrevBtn');
-            const filmsNextBtn = document.getElementById('filmsNextBtn');
-            const scrollAmountFilms = 380; // Card ki width ke hisaab se
-
-            if (filmsNextBtn && filmsPrevBtn && container) {
-                filmsNextBtn.addEventListener('click', () => {
-                    container.scrollBy({ left: scrollAmountFilms, behavior: 'smooth' });
-                });
-                filmsPrevBtn.addEventListener('click', () => {
-                    container.scrollBy({ left: -scrollAmountFilms, behavior: 'smooth' });
-                });
-            }
-        });
-    
-    // ==========================================
-        // YOUTUBE PLAYLIST PREMIUM SLIDER LOGIC
+        // YOUTUBE PLAYLIST PREMIUM SLIDER LOGIC (FINAL)
         // ==========================================
         document.addEventListener('DOMContentLoaded', function() {
             const playlistId = 'PLELheYN-Bsu4';
             const rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
             const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-            const container = document.getElementById('youtube-slider-container');
+            const ytContainer = document.getElementById('youtube-slider-container');
             
             // Auto Scroll Setup
             window.videoAutoScrollInterval = null;
-            const scrollDelay = 3500; // 3.5 seconds me slide hoga
+            const scrollDelay = 3500; 
 
             function startAutoScroll() {
                 if(!window.videoAutoScrollInterval) {
                     window.videoAutoScrollInterval = setInterval(() => {
-                        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-                            container.scrollTo({ left: 0, behavior: 'smooth' });
+                        if (ytContainer.scrollLeft + ytContainer.clientWidth >= ytContainer.scrollWidth - 10) {
+                            ytContainer.scrollTo({ left: 0, behavior: 'smooth' });
                         } else {
-                            // Ek video card aage badhega
-                            const cardWidth = container.querySelector('.rolex-video-card').clientWidth;
-                            container.scrollBy({ left: cardWidth + 25, behavior: 'smooth' });
+                            const cardWidth = ytContainer.querySelector('.rolex-video-card').clientWidth;
+                            ytContainer.scrollBy({ left: cardWidth + 25, behavior: 'smooth' });
                         }
                     }, scrollDelay);
                 }
@@ -2154,19 +2060,17 @@
                 .then(response => response.json())
                 .then(data => {
                     if(data.status === 'ok' && data.items.length > 0) {
-                        container.innerHTML = ''; 
+                        ytContainer.innerHTML = ''; 
                         
                         data.items.forEach(item => {
                             let videoId = item.link.split('v=')[1];
                             
-                            // Title ko chota rakhne ke liye agar wo bahut bada ho
                             let rawTitle = item.title;
                             let shortTitle = rawTitle.length > 40 ? rawTitle.substring(0, 40) + '...' : rawTitle;
 
-                            // Naya Premium Card HTML jisme exactly portfolio jaisa overlay hai
                             const cardHTML = `
                                 <div class="rolex-video-card" onclick="playVideo(this, '${videoId}')">
-                                    <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" class="thumbnail" alt="Wedding Film">
+                                    <img src="https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg" onerror="this.src='https://i.ytimg.com/vi/${videoId}/hqdefault.jpg'" class="thumbnail" alt="Wedding Film">
                                     <div class="play-icon-overlay"><i class="fa-solid fa-play"></i></div>
                                     <div class="rolex-card-overlay">
                                         <h3>Harvisha Films</h3>
@@ -2174,30 +2078,28 @@
                                     </div>
                                 </div>
                             `;
-                            container.innerHTML += cardHTML;
+                            ytContainer.innerHTML += cardHTML;
                         });
 
-                        // Scroll chalayein aur user interaction par rokein
                         startAutoScroll();
-                        container.addEventListener('mouseenter', stopAutoScroll);
-                        container.addEventListener('mouseleave', startAutoScroll);
-                        container.addEventListener('touchstart', stopAutoScroll, {passive: true});
-                        container.addEventListener('touchend', startAutoScroll, {passive: true});
+                        ytContainer.addEventListener('mouseenter', stopAutoScroll);
+                        ytContainer.addEventListener('mouseleave', startAutoScroll);
+                        ytContainer.addEventListener('touchstart', stopAutoScroll, {passive: true});
+                        ytContainer.addEventListener('touchend', startAutoScroll, {passive: true});
 
                     } else {
-                        container.innerHTML = '<p style="text-align:center; width:100%; color:#fff;">No videos found.</p>';
+                        ytContainer.innerHTML = '<p style="text-align:center; width:100%; color:#d4af37;">No videos found.</p>';
                     }
                 })
                 .catch(error => {
                     console.error("Error loading videos: ", error);
-                    container.innerHTML = '<p style="text-align:center; width:100%; color:#fff;">Could not load videos.</p>';
+                    ytContainer.innerHTML = '<p style="text-align:center; width:100%; color:#d4af37;">Could not load videos.</p>';
                 });
 
             // Click-to-Play function
             window.playVideo = function(cardElement, videoId) {
-                stopAutoScroll(); // Video play hone par auto-scroll hamesha ke liye rok dega
+                stopAutoScroll(); 
                 
-                // Card ke andar iframe daal dega (Autoplay ON)
                 cardElement.innerHTML = `
                     <iframe 
                         style="width: 100%; height: 100%; border: none; background: #000;" 
@@ -2208,32 +2110,30 @@
                     </iframe>
                 `;
                 cardElement.style.cursor = 'default';
-                cardElement.onclick = null; // Taaki dubara click par load na ho
-                cardElement.classList.remove('rolex-video-card'); // Hover effect remove kar dega
-                cardElement.style.width = '460px'; // Dimensions fix rakhega
-                cardElement.style.height = '260px';
+                cardElement.onclick = null; 
+                cardElement.classList.remove('rolex-video-card'); 
+                cardElement.style.width = window.innerWidth <= 1024 ? (window.innerWidth <= 768 ? '310px' : '380px') : '460px'; 
+                cardElement.style.height = window.innerWidth <= 1024 ? (window.innerWidth <= 768 ? '175px' : '215px') : '260px';
                 cardElement.style.flexShrink = '0';
                 cardElement.style.borderRadius = '18px';
                 cardElement.style.overflow = 'hidden';
                 cardElement.style.scrollSnapAlign = 'start';
             };
 
-            // Manual Arrows Control
             const filmsPrevBtn = document.getElementById('filmsPrevBtn');
             const filmsNextBtn = document.getElementById('filmsNextBtn');
 
-            if (filmsNextBtn && filmsPrevBtn && container) {
+            if (filmsNextBtn && filmsPrevBtn && ytContainer) {
                 filmsNextBtn.addEventListener('click', () => {
                     stopAutoScroll();
-                    container.scrollBy({ left: 380, behavior: 'smooth' });
+                    ytContainer.scrollBy({ left: 380, behavior: 'smooth' });
                 });
                 filmsPrevBtn.addEventListener('click', () => {
                     stopAutoScroll();
-                    container.scrollBy({ left: -380, behavior: 'smooth' });
+                    ytContainer.scrollBy({ left: -380, behavior: 'smooth' });
                 });
             }
         });
-    
     </script>
 
 </body>
