@@ -1928,7 +1928,6 @@
             document.head.appendChild(style);
             typeAnimation();
         });
-    
     // ==========================================
         // YOUTUBE PLAYLIST AUTOMATIC SLIDER LOGIC
         // ==========================================
@@ -1949,10 +1948,7 @@
                         container.innerHTML = ''; // Loading text ko remove karega
                         
                         data.items.forEach(item => {
-                            // Video ID nikalne ka logic
                             let videoId = item.link.split('v=')[1];
-                            
-                            // Naya Video Card banayega
                             const cardHTML = `
                                 <div class="video-card">
                                     <iframe 
@@ -1967,6 +1963,39 @@
                             `;
                             container.innerHTML += cardHTML;
                         });
+
+                        // ----------------------------------------------------
+                        // ✨ SMART AUTO-SCROLL LOGIC START
+                        // ----------------------------------------------------
+                        let autoScrollInterval;
+                        const scrollDelay = 3000; // 3000 = 3 Seconds (Aap ise badal sakte hain)
+
+                        function startAutoScroll() {
+                            autoScrollInterval = setInterval(() => {
+                                // Agar slider bilkul end me pahunch gaya hai, toh start me wapas jao
+                                if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+                                    container.scrollTo({ left: 0, behavior: 'smooth' });
+                                } else {
+                                    // Ek card aage scroll karo
+                                    container.scrollBy({ left: 380, behavior: 'smooth' });
+                                }
+                            }, scrollDelay);
+                        }
+
+                        function stopAutoScroll() {
+                            clearInterval(autoScrollInterval);
+                        }
+
+                        // Scroll start karo
+                        startAutoScroll();
+
+                        // Jab user video pe hover ya touch kare, toh scroll rok do taaki wo play kar sakein
+                        container.addEventListener('mouseenter', stopAutoScroll);
+                        container.addEventListener('mouseleave', startAutoScroll);
+                        container.addEventListener('touchstart', stopAutoScroll);
+                        container.addEventListener('touchend', startAutoScroll);
+                        // ----------------------------------------------------
+
                     } else {
                         container.innerHTML = '<p style="text-align:center; width:100%;">No videos found in playlist.</p>';
                     }
@@ -1976,10 +2005,10 @@
                     container.innerHTML = '<p style="text-align:center; width:100%;">Could not load videos.</p>';
                 });
 
-            // Slider Left/Right Scrolling Controls for Videos
+            // Slider Left/Right Manual Controls
             const filmsPrevBtn = document.getElementById('filmsPrevBtn');
             const filmsNextBtn = document.getElementById('filmsNextBtn');
-            const scrollAmountFilms = 360; 
+            const scrollAmountFilms = 380; // Card ki width ke hisaab se
 
             if (filmsNextBtn && filmsPrevBtn && container) {
                 filmsNextBtn.addEventListener('click', () => {
