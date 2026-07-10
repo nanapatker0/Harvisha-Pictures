@@ -2111,9 +2111,9 @@
                             let rawTitle = item.title;
                             let shortTitle = rawTitle.length > 40 ? rawTitle.substring(0, 40) + '...' : rawTitle;
 
-                            const cardHTML = `
+                           const cardHTML = `
                                 <div class="rolex-video-card" onclick="playVideo(this, '${videoId}')">
-                                    <img src="https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg" onerror="this.src='https://i.ytimg.com/vi/${videoId}/hqdefault.jpg'" class="thumbnail" alt="Wedding Film">
+                                    <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" class="thumbnail" alt="Wedding Film">
                                     <div class="play-icon-overlay"><i class="fa-solid fa-play"></i></div>
                                     <div class="rolex-card-overlay">
                                         <h3>Harvisha Films</h3>
