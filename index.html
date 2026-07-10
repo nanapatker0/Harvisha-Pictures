@@ -1327,6 +1327,41 @@
             margin-top: 20px;
         }
 
+
+        /* ==========================================
+           LUXURY SECTION DIVIDER
+           ========================================== */
+        .luxury-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111111;
+            padding: 20px 10%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .luxury-divider .gold-line {
+            height: 1px;
+            flex-grow: 1;
+            background: linear-gradient(to right, rgba(212, 175, 55, 0), rgba(212, 175, 55, 0.4));
+        }
+
+        .luxury-divider .gold-line:last-child {
+            background: linear-gradient(to left, rgba(212, 175, 55, 0), rgba(212, 175, 55, 0.4));
+        }
+
+        .luxury-divider .divider-icon {
+            color: #d4af37;
+            padding: 0 25px;
+            font-size: 14px;
+            letter-spacing: 4px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         
         
     </style>
@@ -1437,6 +1472,14 @@
         
     </section>
 
+<!-- CREATIVE LUXURY DIVIDER START -->
+    <div class="luxury-divider">
+        <div class="gold-line"></div>
+        <div class="divider-icon">✦ <i class="fa-solid fa-film"></i> ✦</div>
+        <div class="gold-line"></div>
+    </div>
+    <!-- CREATIVE LUXURY DIVIDER END -->
+    
     <section class="rolex-portfolio-section reveal" id="films" style="background: #111111; padding: 80px 0;">
         <h2 class="rolex-section-title">Latest Wedding Films</h2>
         
