@@ -1362,6 +1362,50 @@
             gap: 10px;
         }
 
+
+        /* ==========================================
+           VIDEO CARDS TEXT FIX & iPHONE BORDER
+           ========================================== */
+        
+        /* iPhone jaisa sleek metallic border */
+        .rolex-video-card {
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3), 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .rolex-video-card:hover {
+            border-color: rgba(212, 175, 55, 0.6); /* Hover karne par halka gold ho jayega */
+        }
+
+        /* Overlay aur Gradient ko kam kiya taaki face clear dikhe */
+        .rolex-video-card .rolex-card-overlay {
+            padding: 18px 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0) 100%);
+        }
+
+        /* Text Size ko chota aur clean kiya */
+        .rolex-video-card .rolex-card-overlay h2 {
+            font-size: 17px !important; /* Pehle ye 28px tha */
+            line-height: 1.4;
+            font-weight: 500;
+            white-space: normal;
+        }
+
+        .rolex-video-card .rolex-card-overlay h3 {
+            font-size: 10px !important;
+            margin-bottom: 4px;
+        }
+
+        /* Mobile Screens ke liye text aur chota */
+        @media (max-width: 768px) {
+            .rolex-video-card .rolex-card-overlay h2 {
+                font-size: 14px !important;
+            }
+            .rolex-video-card .rolex-card-overlay {
+                padding: 15px 15px;
+            }
+        }
+        
        
         
     </style>
