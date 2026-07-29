@@ -108,7 +108,7 @@
             border-radius: 2px;
         }
 
-               /* DYNAMIC HERO SECTION */
+              /* DYNAMIC HERO SECTION WITH IMAGE FIXED */
         .hero {
             position: relative;
             height: 60vh;
@@ -120,28 +120,26 @@
             color: white;
             padding: 80px 20px 0; 
             overflow: hidden;
-            /* Fallback animated gradient (Agar image load na ho to ye dikhega) */
-            background: linear-gradient(-45deg, #0a0a0a, #1f1f1f, #111111, #2a2a2a);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            /* Fallback dark gradient */
+            background: #111;
         }
 
-        /* Pseudo-element for smooth zooming image effect */
+        /* Yahan path aur image name thik kiya gaya hai */
         .hero::before {
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url("images/Picture 2.jpg") center/cover no-repeat;
-            /* Ye animation background ko smoothly zoom in/out karega */
+            /* DHYAN DEIN: ../images/team-bg.jpg */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url("../images/team-bg.jpg") center/cover no-repeat;
             animation: kenBurnsZoom 20s ease-in-out infinite alternate;
             z-index: 1;
         }
 
-        /* Ensure text stays above the dynamic background */
         .hero > div {
             position: relative;
             z-index: 2;
         }
+
 
         .hero h1 {
             font-family: "Playfair Display", serif;
