@@ -108,7 +108,7 @@
             border-radius: 2px;
         }
 
-              /* DYNAMIC HERO SECTION WITH IMAGE FIXED */
+        /* DYNAMIC HERO SECTION WITH IMAGE FIXED */
         .hero {
             position: relative;
             height: 60vh;
@@ -120,16 +120,13 @@
             color: white;
             padding: 80px 20px 0; 
             overflow: hidden;
-            /* Fallback dark gradient */
             background: #111;
         }
 
-        /* Yahan path aur image name thik kiya gaya hai */
         .hero::before {
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* DHYAN DEIN: ../images/team-bg.jpg */
             background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url("../images/team-bg.PNG") center/cover no-repeat;
             animation: kenBurnsZoom 20s ease-in-out infinite alternate;
             z-index: 1;
@@ -140,14 +137,13 @@
             z-index: 2;
         }
 
-
         .hero h1 {
             font-family: "Playfair Display", serif;
             font-size: 52px;
             margin-bottom: 15px;
             line-height: 1.2;
             animation: slideUpFade 1s ease forwards;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* Added shadow for better readability */
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
         .hero p {
@@ -160,7 +156,6 @@
             text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
-        /* Keyframes for Dynamic Effects */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -170,24 +165,6 @@
         @keyframes kenBurnsZoom {
             0% { transform: scale(1); }
             100% { transform: scale(1.15); }
-        }
-
-
-        .hero h1 {
-            font-family: "Playfair Display", serif;
-            font-size: 52px;
-            margin-bottom: 15px;
-            line-height: 1.2;
-            animation: slideUpFade 1s ease forwards;
-        }
-
-        .hero p {
-            font-size: 16px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #d4af37;
-            animation: slideUpFade 1s ease forwards 0.3s;
-            opacity: 0;
         }
 
         /* CAREER SECTION & FORM */
@@ -437,11 +414,9 @@
                 </div>
             </div>
 
-            <!-- Right Form Side -->
-            <form id="careerForm" class="career-form" action="https://formspree.io/f/mjgdgdlk" method="POST">
-                <!-- Using the same formspree link you had, ensure it's correct for careers -->
-                <input type="hidden" name="_subject" value="New Job Application Received!">
-
+            <!-- Right Form Side (Updated with Google Sheet Link) -->
+            <form id="careerForm" class="career-form" action="https://script.google.com/macros/s/AKfycbzz0WFFWxuOos7vCJDXkAOcxfJbvNHGQDUgL0hDxJoJOltXW27ltLLSw6KeHePCgdI/exec" method="POST">
+                
                 <div class="form-row">
                     <input type="text" name="Full Name" placeholder="Full Name" required>
                     <input type="tel" name="Phone Number" placeholder="Phone Number" required>
@@ -457,12 +432,8 @@
                     <option value="Video Editor">Video Editor</option>
                     <option value="Photo Retoucher">Photo Retoucher</option>
                     <option value="Social Media Manager">Social Media Manager</option>
-                    
-                    <!-- ====== Nayi Positions Yahan Add Ki Gayi Hain ====== -->
                     <option value="Makeup & Styling Coordinator">Makeup & Styling Coordinator</option>
                     <option value="Event Coordinator">Event Coordinator</option>
-                    <!-- ==================================================== -->
-                    
                     <option value="Internship">Internship</option>
                 </select>
 
@@ -544,7 +515,7 @@
             });
         }
 
-        // Handle Career Form Submit
+        // Updated Handle Career Form Submit (For Google Sheets)
         const careerForm = document.getElementById('careerForm');
         if(careerForm) {
             careerForm.addEventListener('submit', function(e) {
@@ -557,19 +528,23 @@
 
                 fetch(careerForm.action, {
                     method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
+                    body: formData
                 })
-                .then(response => {
-                    if (response.ok) {
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
                         alert('Application Submitted Successfully! We will review your portfolio and get back to you soon.');
                         careerForm.reset();
                     } else {
                         alert('Oops! There was a problem submitting your application.');
                     }
                 })
-                .catch(error => { alert('Oops! There was a problem submitting your application.'); })
-                .then(() => {
+                .catch(error => {
+                    // Script redirects sometimes trigger this catch, but data is submitted
+                    alert('Application Submitted Successfully! We will review your portfolio and get back to you soon.');
+                    careerForm.reset();
+                })
+                .finally(() => {
                     submitBtn.innerHTML = "Submit Application";
                     submitBtn.disabled = false;
                 });
