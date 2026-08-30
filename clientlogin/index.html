@@ -10,7 +10,7 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase SDK (Compat Version) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
@@ -44,10 +44,14 @@
             backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; text-align: center; color: #fff;
         }
         .glass-panel h1 { font-family: serif; letter-spacing: 2px; color: var(--primary-gold); margin-bottom: 5px; }
-        .input-group { margin-bottom: 20px; }
-        .input-group input { width: 100%; padding: 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; color: #fff; outline: none; }
+        .input-group { margin-bottom: 20px; position: relative; }
+        .input-group input { width: 100%; padding: 15px; padding-right: 45px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; color: #fff; outline: none; }
         .btn-gold-login { width: 100%; padding: 15px; background: var(--primary-gold); color: #fff; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 16px; }
+        .forgot-link { display: inline-block; margin-top: 15px; font-size: 13px; color: rgba(255, 255, 255, 0.6); text-decoration: none; cursor: pointer; transition: 0.3s; }
+        .forgot-link:hover { color: #fff; }
         #status-msg { margin-top: 15px; font-size: 13px; color: var(--primary-gold); }
+
+        .toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #aaa; cursor: pointer; font-size: 16px; }
 
         /* ================= SHARED DASHBOARD CONTAINER ================= */
         #dashboard-screen { display: none; height: 100vh; width: 100vw; }
@@ -114,7 +118,8 @@
         
         .m-app-container { width: 100%; max-width: 480px; margin: 0 auto; background-color: var(--bg-color); min-height: 100vh; position: relative; padding-bottom: 70px; }
         .m-dark-header-bg { background-color: #000; padding: 15px 15px 20px 15px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;}
-        .m-top-navbar { display: flex; justify-content: space-between; align-items: center; color: #fff; margin-bottom: 20px; }
+        
+        .m-top-navbar { display: flex; justify-content: center; align-items: center; color: #fff; margin-bottom: 20px; }
         .m-logo-center { text-align: center; }
         .m-logo-center h2 { font-family: serif; font-weight: normal; letter-spacing: 2px; font-size: 18px; color: #fff;}
         .m-logo-center p { font-size: 6px; letter-spacing: 1.5px; color: #888; text-transform: uppercase; }
@@ -179,7 +184,7 @@
         .m-help-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px;}
         .m-btn-contact { border: 1px solid var(--border-color); background: transparent; padding: 8px 0; border-radius: 6px; font-size: 9px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 4px; color: var(--text-main); text-decoration: none;}
 
-        .m-bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: #000; display: flex; justify-content: space-between; padding: 10px 15px; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 10; }
+        .m-bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: #000; display: flex; justify-content: space-around; padding: 10px 15px; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 10; }
         .m-nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #888; text-decoration: none; font-size: 9px; padding: 6px 12px; border-radius: 12px; transition: 0.3s;}
         .m-nav-item i { font-size: 14px; }
         .m-nav-item.active { background: #3d2f1d; color: var(--primary-gold); }
@@ -205,8 +210,10 @@
             </div>
             <div class="input-group">
                 <input type="password" id="password" placeholder="Password">
+                <i class="fa-regular fa-eye toggle-password" id="togglePasswordIcon" onclick="togglePasswordVisibility()"></i>
             </div>
             <button class="btn-gold-login" onclick="login()">Access Project</button>
+            <a onclick="resetPassword()" class="forgot-link">Forgot Password?</a>
             <p id="status-msg"></p>
         </div>
     </div>
@@ -222,13 +229,9 @@
                     <p>PHOTOGRAPHY • FILMS • MEMORIES</p>
                 </div>
                 <ul class="d-nav-menu">
+                    <!-- Kept only Dashboard and Logout for cleaner UI -->
                     <li class="d-nav-item active"><a href="#" class="d-nav-link"><i class="fa-solid fa-house"></i> Dashboard</a></li>
-                    <li class="d-nav-item"><a href="#" class="d-nav-link"><i class="fa-regular fa-image"></i> My Project</a></li>
-                    <li class="d-nav-item"><a href="#" class="d-nav-link"><i class="fa-solid fa-book-open"></i> Album</a></li>
-                    <li class="d-nav-item"><a href="#" class="d-nav-link"><i class="fa-regular fa-bell"></i> Updates</a></li>
-                    <li class="d-nav-item"><a href="#" class="d-nav-link"><i class="fa-regular fa-comment-dots"></i> Messages</a></li>
-                    <li class="d-nav-item"><a href="#" class="d-nav-link"><i class="fa-regular fa-user"></i> Profile</a></li>
-                    <li class="d-nav-item"><a href="#" class="d-nav-link"><i class="fa-solid fa-headset"></i> Support</a></li>
+                    
                     <div style="flex-grow: 1;"></div>
                     <li class="d-nav-item" onclick="logout()" style="margin-bottom: 20px;">
                         <a href="#" class="d-nav-link" style="color: #d9534f;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
@@ -243,7 +246,6 @@
                         <p style="color: var(--text-muted); font-size: 12px;">Here's what's happening with your project.</p>
                     </div>
                     <div style="display: flex; gap: 15px; align-items: center;">
-                        <i class="fa-regular fa-bell" style="font-size: 18px; color: var(--text-muted);"></i>
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <div style="width: 32px; height: 32px; border-radius: 50%; background: #333; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;" id="d-avatar">C</div>
                             <span style="font-size: 12px; font-weight: 500;" id="d-profileName">Client</span>
@@ -337,15 +339,11 @@
         <div class="mobile-layout">
             <div class="m-app-container">
                 <div class="m-dark-header-bg">
-                    <div class="m-top-navbar">
-                        <i class="fa-solid fa-bars m-nav-icon"></i>
+                    <!-- Top nav cleaned up -->
+                    <div class="m-top-navbar" style="justify-content: center;">
                         <div class="m-logo-center">
                             <h2>HARVISHA</h2>
                             <p>PHOTOGRAPHY • FILMS • MEMORIES</p>
-                        </div>
-                        <div style="display: flex; gap: 15px;">
-                            <i class="fa-regular fa-bell m-nav-icon"></i>
-                            <i class="fa-regular fa-circle-user m-nav-icon" onclick="logout()" style="color: var(--primary-gold); cursor: pointer;"></i>
                         </div>
                     </div>
 
@@ -453,9 +451,6 @@
 
                 <nav class="m-bottom-nav">
                     <a href="#" class="m-nav-item active"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
-                    <a href="#" class="m-nav-item"><i class="fa-regular fa-folder"></i><span>Project</span></a>
-                    <a href="#" class="m-nav-item"><i class="fa-regular fa-images"></i><span>Content</span></a>
-                    <a href="#" class="m-nav-item"><i class="fa-solid fa-wallet"></i><span>Payments</span></a>
                     <a href="#" class="m-nav-item" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
                 </nav>
             </div>
@@ -503,10 +498,8 @@
             }
         }
 
-        // ================= GOOGLE DRIVE IMAGE FIX =================
         function getValidImageUrl(url) {
             if (!url || url.trim() === "") return DEFAULT_LOGO;
-            // Agar link drive.google.com ka hai, toh usey displayable link me badal do
             if (url.includes("drive.google.com")) {
                 let idMatch = url.match(/[?&]id=([^&]+)/) || url.match(/\/d\/([a-zA-Z0-9_-]+)/);
                 if (idMatch && idMatch[1]) {
@@ -516,12 +509,56 @@
             return url;
         }
 
+        // Toggle Password Visibility
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById("password");
+            const toggleIcon = document.getElementById("togglePasswordIcon");
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passInput.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+
+        // Forgot Password Feature
+        async function resetPassword() {
+            const email = document.getElementById('email').value;
+            const statusBox = document.getElementById('status-msg');
+            
+            if(!email) {
+                statusBox.style.color = "var(--danger-red)";
+                statusBox.innerText = "Please enter your email above to reset password.";
+                return;
+            }
+            
+            statusBox.style.color = "var(--primary-gold)";
+            statusBox.innerText = "Sending reset link...";
+            
+            try {
+                await auth.sendPasswordResetEmail(email);
+                statusBox.style.color = "var(--success-green)";
+                statusBox.innerText = "Reset link sent to your email!";
+            } catch (error) {
+                statusBox.style.color = "var(--danger-red)";
+                statusBox.innerText = "Error: Email not found or invalid.";
+            }
+        }
+
         async function login() {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
             const statusBox = document.getElementById('status-msg');
 
-            if(!email || !pass) return statusBox.innerText = "Please enter email and password.";
+            if(!email || !pass) {
+                statusBox.style.color = "var(--danger-red)";
+                return statusBox.innerText = "Please enter email and password.";
+            }
+            
+            statusBox.style.color = "var(--primary-gold)";
             statusBox.innerText = "Authenticating...";
             
             try {
@@ -548,7 +585,6 @@
                         updateDOM(pfx+'bookingDate', data.bookingDate || "--");
                         updateDOM(pfx+'deliveryDate', data.expectedDelivery || "--");
                         
-                        // FIX APPLIED HERE
                         const rawImageUrl = (data.coverImage && data.coverImage.trim() !== "") ? data.coverImage : DEFAULT_LOGO;
                         const projectImgUrl = getValidImageUrl(rawImageUrl);
                         updateDOM(pfx+'coverImg', projectImgUrl, "src");
@@ -580,11 +616,12 @@
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('dashboard-screen').style.display = 'block';
                 } else {
+                    statusBox.style.color = "var(--danger-red)";
                     statusBox.innerText = "No project found for this email.";
                 }
             } catch (error) {
-                statusBox.innerText = "Invalid Credentials.";
                 statusBox.style.color = "var(--danger-red)";
+                statusBox.innerText = "Invalid Credentials.";
             }
         }
 
