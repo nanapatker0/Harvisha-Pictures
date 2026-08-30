@@ -2,192 +2,473 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Command Center | Harvisha Pictures</title>
-   <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon.png">
-    <link class="apple-touch-icon" sizes="512x512" href="/images/favicon.png">
-    <!-- Firebase SDK -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Portal | Harvisha Pictures</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDK (Only Auth & Firestore needed now) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        
-        body { 
-            background-color: #0a0a0a; color: #ffffff; display: flex; 
-            justify-content: center; align-items: center; min-height: 100vh;
-            padding: 20px; background-image: radial-gradient(circle at top right, #1f1a0d, #0a0a0a);
+        :root { --primary-gold: #c29b62; --sidebar-bg: #111111; --bg-color: #f4f6f9; --text-main: #2d3748; --text-muted: #718096; --border-color: #e2e8f0; --success-green: #38a169; --danger-red: #e53e3e; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent;}
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        #admin-login-screen { display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; background: #000; position: fixed; z-index: 2000; top: 0; left: 0; }
+        .glass-panel { width: 90%; max-width: 400px; padding: 40px 30px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; text-align: center; color: #fff; }
+        .glass-panel h1 { font-family: serif; letter-spacing: 2px; color: var(--primary-gold); margin-bottom: 5px; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 12px; margin-bottom: 5px; color: #aaa; }
+        .input-group input { width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; outline: none; }
+        .btn-gold-login { width: 100%; padding: 12px; background: var(--primary-gold); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; }
+        .forgot-link { display: inline-block; margin-top: 15px; font-size: 12px; color: rgba(255, 255, 255, 0.6); cursor: pointer; }
+        #login-status { margin-top: 15px; font-size: 13px; color: var(--danger-red); }
+        #admin-dashboard { display: none; width: 100vw; height: 100vh; }
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #fff; display: flex; flex-direction: column; height: 100vh; flex-shrink: 0; z-index: 1000; transition: 0.3s;}
+        .logo-container { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;}
+        .logo-container h2 { font-family: serif; letter-spacing: 2px; font-size: 20px; color: var(--primary-gold); width: 100%; text-align: center;}
+        .close-sidebar { display: none; font-size: 20px; color: #fff; cursor: pointer; }
+        .nav-menu { list-style: none; padding: 20px 15px; display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
+        .nav-link { display: flex; align-items: center; padding: 12px 15px; color: #aaa; text-decoration: none; font-size: 14px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+        .nav-link.active { background-color: #26211a; color: var(--primary-gold); }
+        .nav-link i { width: 24px; }
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 999; }
+        .main-content { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; width: 100%; }
+        .topbar { background: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); flex-shrink: 0;}
+        .topbar-left { display: flex; align-items: center; gap: 15px; width: 100%; max-width: 400px; }
+        .mobile-menu-btn { display: none; font-size: 20px; color: var(--text-main); cursor: pointer; }
+        .search-bar { display: flex; align-items: center; background: var(--bg-color); padding: 8px 15px; border-radius: 8px; flex: 1; border: 1px solid var(--border-color); }
+        .search-bar input { border: none; background: transparent; outline: none; margin-left: 10px; width: 100%; font-size: 14px; }
+        .admin-profile { display: flex; align-items: center; gap: 10px; flex-shrink: 0;}
+        .admin-profile span { font-weight: 600; font-size: 14px; }
+        .admin-profile .avatar { width: 35px; height: 35px; background: var(--primary-gold); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+        .workspace { flex: 1; padding: 30px; overflow-y: auto; }
+        #view-clients, #view-editor { display: none; }
+        #view-clients.active, #view-editor.active { display: block; }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px;}
+        .btn-primary { background: var(--primary-gold); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 8px; justify-content: center; }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+        .btn-secondary { background: #fff; color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 14px; display: flex; justify-content: center; align-items: center;}
+        .client-table-container { background: #fff; border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; white-space: nowrap;}
+        th { background: #f8fafc; font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 12px; }
+        tr:hover { background: #fbfbfb; cursor: pointer; }
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #e6f4ea; color: #38a169; }
+        .form-section { background: #fff; border-radius: 12px; border: 1px solid var(--border-color); padding: 25px; margin-bottom: 20px; }
+        .form-section h3 { font-size: 16px; margin-bottom: 20px; color: var(--primary-gold); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { font-size: 13px; font-weight: 500; color: var(--text-main); }
+        .form-group input, .form-group select { padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: #fff;}
+        .form-group input:disabled { background: #f1f5f9; cursor: not-allowed; }
+        .upload-box { border: 2px dashed var(--border-color); border-radius: 8px; padding: 15px; text-align: center; position: relative; background: #fafafa; }
+        .upload-box input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .upload-content { display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+        .upload-content i { font-size: 24px; color: var(--text-muted); }
+        .upload-content span { font-size: 12px; color: var(--text-muted); }
+        .image-preview { width: 100px; height: 60px; object-fit: cover; border-radius: 6px; margin-top: 10px; display: none; border: 1px solid var(--border-color); }
+        #toast { position: fixed; bottom: 30px; right: 30px; background: #333; color: #fff; padding: 15px 25px; border-radius: 8px; display: none; align-items: center; gap: 10px; z-index: 9999; }
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; left: -260px; }
+            .sidebar.open { left: 0; }
+            .sidebar-overlay.open { display: block; }
+            .close-sidebar { display: block; }
+            .topbar { padding: 15px; flex-wrap: wrap; gap: 15px;}
+            .mobile-menu-btn { display: block; }
+            .topbar-left { max-width: 100%; }
+            .admin-profile span { display: none; }
+            .workspace { padding: 15px; }
+            .header-actions { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .header-actions > div { width: 100%; display: flex; gap: 10px; }
+            .header-actions .btn-primary, .header-actions .btn-secondary { flex: 1; padding: 12px; font-size: 13px;}
+            .form-grid { grid-template-columns: 1fr; gap: 15px;}
+            .form-section { padding: 15px; }
+            #toast { left: 50%; transform: translateX(-50%); right: auto; bottom: 20px; white-space: nowrap; }
         }
-
-        .admin-container {
-            background: rgba(20, 20, 20, 0.95); width: 100%; max-width: 480px;
-            padding: 40px; border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-        }
-
-        h2 { text-align: center; color: #D4AF37; font-size: 20px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
-        
-        /* Updated Input Group for Password Icon */
-        .input-group { position: relative; margin-bottom: 15px; }
-        
-        .toggle-icon {
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            cursor: pointer; font-size: 18px; user-select: none; opacity: 0.6; transition: 0.3s;
-        }
-        .toggle-icon:hover { opacity: 1; }
-        
-        input {
-            width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff;
-            font-size: 14px; outline: none; transition: all 0.3s ease;
-        }
-        input:focus { border-color: #D4AF37; background: rgba(255, 255, 255, 0.07); }
-
-        button {
-            width: 100%; padding: 15px; background: linear-gradient(135deg, #D4AF37, #b5952f);
-            color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 15px;
-            cursor: pointer; transition: transform 0.2s; margin-top: 10px;
-        }
-        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
-
-        .divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 25px 0; }
-        .status-msg { text-align: center; margin-top: 15px; font-size: 13px; font-weight: 400; }
-        #admin-dashboard { display: none; }
     </style>
 </head>
 <body>
 
-<div class="admin-container">
-    
-    <!-- ADMIN LOGIN SECTION -->
-    <div id="admin-login">
-        <h2>🔒 Admin Access</h2>
-        <div class="input-group">
-            <input type="email" id="adminEmail" placeholder="Admin Email ID">
+    <!-- ADMIN LOGIN -->
+    <div id="admin-login-screen">
+        <div class="glass-panel">
+            <h1>HARVISHA</h1>
+            <p style="font-size: 10px; letter-spacing: 2px; color: #888; margin-bottom: 30px;">ADMIN PORTAL</p>
+            <div class="input-group">
+                <label>Admin Email</label>
+                <input type="email" id="admin-email" placeholder="admin@harvishapictures.com" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="admin-password" placeholder="••••••••">
+            </div>
+            <button class="btn-gold-login" onclick="adminLogin()">Login to Dashboard</button>
+            <br><a onclick="adminResetPassword()" class="forgot-link">Forgot Password?</a>
+            <p id="login-status"></p>
         </div>
-        <div class="input-group">
-            <input type="password" id="adminPassword" placeholder="Admin Password">
-            <span class="toggle-icon" onclick="toggleVisibility('adminPassword', this)">👁️</span>
-        </div>
-        <button onclick="loginAdmin()">Verify Identity</button>
-        <p id="login-status" class="status-msg" style="color: #ff4d4d;"></p>
     </div>
 
-    <!-- ADMIN DASHBOARD SECTION -->
+    <!-- ADMIN DASHBOARD -->
     <div id="admin-dashboard">
-        <h2>➕ Create Client Portal</h2>
-        
-        <div class="input-group">
-            <input type="email" id="clientEmail" placeholder="Client Login Email (Username)">
-        </div>
-        <div class="input-group">
-            <input type="password" id="clientPassword" placeholder="Client Login Password">
-            <span class="toggle-icon" onclick="toggleVisibility('clientPassword', this)">👁️</span>
-        </div>
-        
-        <div class="divider"></div>
-        
-        <div class="input-group">
-            <input type="text" id="brideName" placeholder="Bride's Name (e.g., Neha)">
-        </div>
-        <div class="input-group">
-            <input type="text" id="groomName" placeholder="Groom's Name (e.g., Rahul)">
-        </div>
-        <div class="input-group">
-            <input type="date" id="weddingDate">
-        </div>
-        <div class="input-group">
-            <input type="text" id="weddingLocation" placeholder="Location (e.g., The Taj Palace, Delhi)">
-        </div>
-        <div class="input-group">
-            <input type="url" id="driveLink" placeholder="Google Drive Gallery Link">
-        </div>
-        
-        <button onclick="createClient()">Generate Client Portal</button>
-        <p id="create-status" class="status-msg"></p>
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-container">
+                <div><h2>HARVISHA</h2><p style="margin-top: 5px;">Admin Portal</p></div>
+                <i class="fa-solid fa-xmark close-sidebar" onclick="toggleSidebar()"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a class="nav-link active" onclick="switchView('clients'); toggleSidebar();"><i class="fa-solid fa-users"></i> Manage Clients</a></li>
+                <li style="margin-top: auto;"><a class="nav-link" style="color: #d9534f;" onclick="adminLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <i class="fa-solid fa-bars mobile-menu-btn" onclick="toggleSidebar()"></i>
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+                        <input type="text" id="search-input" placeholder="Search clients..." onkeyup="filterClients()">
+                    </div>
+                </div>
+                <div class="admin-profile"><span>Welcome, Harsh</span><div class="avatar">H</div></div>
+            </header>
+
+            <div class="workspace">
+                <!-- CLIENTS LIST -->
+                <div id="view-clients" class="active">
+                    <div class="header-actions">
+                        <h2 style="font-size: 22px; font-weight: 600;">Client Projects</h2>
+                        <button class="btn-primary" onclick="openCreateForm()"><i class="fa-solid fa-plus"></i> Add New Client</button>
+                    </div>
+                    <div class="client-table-container">
+                        <table>
+                            <thead><tr><th>Couple Name</th><th>Client Email ID</th><th>Wedding Date</th><th>Current Step</th><th>Actions</th></tr></thead>
+                            <tbody id="clients-table-body"><tr><td colspan="5" style="text-align: center;">Loading clients...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CLIENT EDITOR -->
+                <div id="view-editor">
+                    <div class="header-actions">
+                        <h2 style="font-size: 22px; font-weight: 600;"><i class="fa-solid fa-arrow-left" style="cursor: pointer; margin-right: 15px; color: var(--text-muted);" onclick="switchView('clients')"></i> <span id="editor-title">Create Client</span></h2>
+                        <div>
+                            <button class="btn-secondary" onclick="switchView('clients')">Cancel</button>
+                            <button class="btn-primary" id="save-btn" onclick="saveClientData()"><i class="fa-solid fa-floppy-disk"></i> Save Client</button>
+                        </div>
+                    </div>
+
+                    <form id="client-form" onsubmit="event.preventDefault();">
+                        <div class="form-section">
+                            <h3><i class="fa-regular fa-id-card"></i> Basic Details & Image</h3>
+                            <div class="form-grid">
+                                <div class="form-group full-width"><label>Client Email (Login ID) *</label><input type="email" id="f-email" required></div>
+                                <div class="form-group"><label>Groom's Name</label><input type="text" id="f-groom"></div>
+                                <div class="form-group"><label>Bride's Name</label><input type="text" id="f-bride"></div>
+                                <div class="form-group"><label>Package Type</label><input type="text" id="f-package" placeholder="Premium Package"></div>
+                                
+                                <div class="form-group">
+                                    <label>Project Cover Image</label>
+                                    <div class="upload-box">
+                                        <input type="file" id="f-coverImgUpload" accept="image/*" onchange="previewImage(event)">
+                                        <div class="upload-content" id="upload-content-placeholder">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i><span>Tap to upload image to Google Drive</span>
+                                        </div>
+                                        <img id="cover-preview" class="image-preview" src="">
+                                    </div>
+                                    <input type="hidden" id="f-existingCoverImg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fa-regular fa-flag"></i> Project Timeline</h3>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Booking Date</label><input type="text" id="f-bookDate"></div>
+                                <div class="form-group"><label>Wedding Date</label><input type="text" id="f-wedDate"></div>
+                                <div class="form-group"><label>Expected Delivery</label><input type="text" id="f-delDate"></div>
+                                <div class="form-group">
+                                    <label>Current Step (0 to 6)</label>
+                                    <select id="f-currentStep">
+                                        <option value="0">0 - Booking</option><option value="1">1 - Shoot Completed</option>
+                                        <option value="2">2 - Editing</option><option value="3">3 - Selection</option>
+                                        <option value="4">4 - Album Design</option><option value="5">5 - Printing</option>
+                                        <option value="6">6 - Delivered</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fa-solid fa-wallet"></i> Payments & Album Status</h3>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Total Amount</label><input type="number" id="f-totalAmt"></div>
+                                <div class="form-group"><label>Paid Amount</label><input type="number" id="f-paidAmt"></div>
+                                <div class="form-group"><label>Balance Amount</label><input type="number" id="f-balAmt"></div>
+                                <div class="form-group"><label>Payment Status</label>
+                                    <select id="f-payStatus"><option value="Pending">Pending</option><option value="Partially Paid">Partially Paid</option><option value="Paid">Fully Paid</option></select>
+                                </div>
+                                <div class="form-group full-width"><label>Album Status</label><input type="text" id="f-albumStatus" placeholder="N/A or Designing in Progress"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fa-brands fa-google-drive"></i> Deliverable Links (Drive/Storage)</h3>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Selected Photos</label><input type="url" id="f-link1"></div>
+                                <div class="form-group"><label>Wedding Film</label><input type="url" id="f-link2"></div>
+                                <div class="form-group"><label>Teaser / Highlights</label><input type="url" id="f-link3"></div>
+                                <div class="form-group"><label>Full Gallery</label><input type="url" id="f-link4"></div>
+                                <div class="form-group"><label>Final Edited Photos</label><input type="url" id="f-link5"></div>
+                                <div class="form-group"><label>Album Preview</label><input type="url" id="f-link6"></div>
+                                <div class="form-group"><label>Final Delivery</label><input type="url" id="f-link7"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
     </div>
 
-</div>
+    <div id="toast"><i class="fa-solid fa-circle-check" style="color: var(--success-green);"></i> <span id="toast-msg">Saved Successfully</span></div>
 
-<script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDW2s0BuiUhr7Xv22gZUfqCpdbCqR_LbFc",
-      authDomain: "harvishaclient-portal.firebaseapp.com",
-      projectId: "harvishaclient-portal",
-      storageBucket: "harvishaclient-portal.firebasestorage.app",
-      messagingSenderId: "630804126643",
-      appId: "1:630804126643:web:317c48d0ec6a31f4a509c6"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
+    <script>
+        // HERE IS YOUR UPDATED SPECIFIC WEB APP URL
+        const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtORGQF1M-YX0zOJKGcLH3pkWivoly2Oc-1DMFnWvV8QNOXvoufVPZde79fWUaMJk/exec";
 
-    // Password Show/Hide Function
-    function toggleVisibility(inputId, icon) {
-        const inputField = document.getElementById(inputId);
-        if (inputField.type === "password") {
-            inputField.type = "text";
-            icon.innerText = "🙈"; 
-        } else {
-            inputField.type = "password";
-            icon.innerText = "👁️"; 
+        // FIREBASE CONFIGURATION (Auth aur Database ke liye)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW2s0BuiUhr7Xv22gZUfqCpdbCqR_LbFc",
+            authDomain: "harvishaclient-portal.firebaseapp.com",
+            projectId: "harvishaclient-portal"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        let allClientsData = [];
+        const timelineLabels = ["0-Booking", "1-Shoot", "2-Editing", "3-Selection", "4-Album", "5-Printing", "6-Delivered"];
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('open'); }
+
+        async function adminLogin() {
+            const email = document.getElementById('admin-email').value;
+            const pass = document.getElementById('admin-password').value;
+            const statusBox = document.getElementById('login-status');
+            if(!email || !pass) { statusBox.innerText = "Please enter email and password."; return; }
+            statusBox.style.color = "var(--primary-gold)"; statusBox.innerText = "Authenticating...";
+            try {
+                await auth.signInWithEmailAndPassword(email, pass);
+                document.getElementById('admin-login-screen').style.display = 'none';
+                document.getElementById('admin-dashboard').style.display = 'flex';
+                fetchClients();
+            } catch (error) { statusBox.style.color = "var(--danger-red)"; statusBox.innerText = "Invalid Credentials."; }
         }
-    }
-
-    async function loginAdmin() {
-        const email = document.getElementById('adminEmail').value;
-        const pass = document.getElementById('adminPassword').value;
-        const status = document.getElementById('login-status');
         
-        status.innerText = "Verifying..."; status.style.color = "#D4AF37";
-
-        try {
-            await auth.signInWithEmailAndPassword(email, pass);
-            document.getElementById('admin-login').style.display = 'none';
-            document.getElementById('admin-dashboard').style.display = 'block';
-        } catch (error) {
-            status.innerText = "Access Denied: Invalid Credentials"; status.style.color = "#ff4d4d";
-        }
-    }
-
-    async function createClient() {
-        const email = document.getElementById('clientEmail').value;
-        const pass = document.getElementById('clientPassword').value;
-        const status = document.getElementById('create-status');
-        
-        if(!email || !pass) {
-            status.innerText = "Email and Password are required!"; status.style.color = "#ff4d4d";
-            return;
+        async function adminResetPassword() {
+            const email = document.getElementById('admin-email').value;
+            const statusBox = document.getElementById('login-status');
+            if(!email) { statusBox.style.color = "var(--danger-red)"; statusBox.innerText = "Enter email above to reset."; return; }
+            statusBox.style.color = "var(--primary-gold)"; statusBox.innerText = "Sending link...";
+            try { await auth.sendPasswordResetEmail(email); statusBox.style.color = "var(--success-green)"; statusBox.innerText = "Reset link sent!"; } 
+            catch (error) { statusBox.style.color = "var(--danger-red)"; statusBox.innerText = "Email not found."; }
         }
 
-        status.innerText = "Creating secure portal..."; status.style.color = "#D4AF37";
+        function adminLogout() { auth.signOut().then(() => window.location.reload()); }
 
-        try {
-            await auth.createUserWithEmailAndPassword(email, pass);
-            
-            await db.collection('clients').doc(email).set({
-                bride: document.getElementById('brideName').value,
-                groom: document.getElementById('groomName').value,
-                date: document.getElementById('weddingDate').value,
-                location: document.getElementById('weddingLocation').value,
-                driveUrl: document.getElementById('driveLink').value
+        function switchView(viewName) {
+            document.getElementById('view-clients').classList.remove('active'); document.getElementById('view-editor').classList.remove('active');
+            if (viewName === 'clients') { document.getElementById('view-clients').classList.add('active'); fetchClients(); } 
+            else if (viewName === 'editor') { document.getElementById('view-editor').classList.add('active'); }
+        }
+
+        async function fetchClients() {
+            try {
+                const snapshot = await db.collection('clients').get();
+                allClientsData = [];
+                snapshot.forEach(doc => allClientsData.push({ id: doc.id, ...doc.data() }));
+                renderTable(allClientsData);
+            } catch (error) { console.error(error); }
+        }
+
+        function renderTable(dataArray) {
+            const tbody = document.getElementById('clients-table-body');
+            tbody.innerHTML = "";
+            if(dataArray.length === 0) return tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No clients found.</td></tr>`;
+            dataArray.forEach(client => {
+                const stepIdx = client.currentStep || 0;
+                const tr = document.createElement('tr');
+                tr.onclick = () => openEditForm(client.id);
+                tr.innerHTML = `<td><strong>${client.groom || 'N/A'} & ${client.bride || 'N/A'}</strong></td><td>${client.id}</td><td>${client.weddingDate || '--'}</td><td><span class="status-badge active">${timelineLabels[stepIdx] || "Unknown"}</span></td><td><button class="btn-secondary" style="padding: 6px 12px; font-size: 12px;">Edit</button></td>`;
+                tbody.appendChild(tr);
             });
-
-            status.innerText = "✅ Portal created successfully! Reloading..."; status.style.color = "#28a745";
-            
-            setTimeout(() => {
-                auth.signOut();
-                window.location.reload();
-            }, 2500);
-            
-        } catch (error) {
-            status.innerText = "Error: " + error.message; status.style.color = "#ff4d4d";
         }
-    }
-</script>
 
+        function filterClients() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = allClientsData.filter(c => `${c.id} ${c.groom} ${c.bride}`.toLowerCase().includes(query));
+            renderTable(filtered);
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('cover-preview').src = URL.createObjectURL(file);
+                document.getElementById('cover-preview').style.display = 'block';
+                document.getElementById('upload-content-placeholder').style.display = 'none';
+            }
+        }
+
+        function resetImageUploader(existingUrl) {
+            document.getElementById('f-coverImgUpload').value = "";
+            document.getElementById('f-existingCoverImg').value = existingUrl || "";
+            if(existingUrl) {
+                document.getElementById('cover-preview').src = existingUrl;
+                document.getElementById('cover-preview').style.display = 'block';
+                document.getElementById('upload-content-placeholder').style.display = 'none';
+            } else {
+                document.getElementById('cover-preview').style.display = 'none';
+                document.getElementById('upload-content-placeholder').style.display = 'flex';
+            }
+        }
+
+        function openCreateForm() {
+            document.getElementById('editor-title').innerText = "Add New Client";
+            document.getElementById('client-form').reset();
+            document.getElementById('f-email').disabled = false;
+            resetImageUploader("");
+            switchView('editor');
+        }
+
+        function openEditForm(emailId) {
+            document.getElementById('editor-title').innerText = "Edit: " + emailId;
+            document.getElementById('client-form').reset();
+            const client = allClientsData.find(c => c.id === emailId);
+            
+            document.getElementById('f-email').value = client.id;
+            document.getElementById('f-email').disabled = true; 
+            document.getElementById('f-groom').value = client.groom || '';
+            document.getElementById('f-bride').value = client.bride || '';
+            document.getElementById('f-package').value = client.packageType || '';
+            
+            resetImageUploader(client.coverImage); 
+
+            document.getElementById('f-bookDate').value = client.bookingDate || '';
+            document.getElementById('f-wedDate').value = client.weddingDate || '';
+            document.getElementById('f-delDate').value = client.expectedDelivery || '';
+            document.getElementById('f-currentStep').value = client.currentStep || 0;
+            
+            document.getElementById('f-totalAmt').value = client.totalAmount || '';
+            document.getElementById('f-paidAmt').value = client.paidAmount || '';
+            document.getElementById('f-balAmt').value = client.balanceAmount || '';
+            document.getElementById('f-payStatus').value = client.paymentStatus || 'Pending';
+            document.getElementById('f-albumStatus').value = client.albumStatus || '';
+
+            document.getElementById('f-link1').value = client.linkSelectedPhotos || '';
+            document.getElementById('f-link2').value = client.linkWeddingFilm || '';
+            document.getElementById('f-link3').value = client.linkTeaser || '';
+            document.getElementById('f-link4').value = client.linkFullGallery || '';
+            document.getElementById('f-link5').value = client.linkFinalPhotos || '';
+            document.getElementById('f-link6').value = client.linkAlbumPreview || '';
+            document.getElementById('f-link7').value = client.linkFinalDelivery || '';
+
+            switchView('editor');
+        }
+
+        // ====== IMAGE UPLOAD TO GOOGLE DRIVE + SAVE TO FIREBASE ======
+        async function saveClientData() {
+            const emailId = document.getElementById('f-email').value.trim();
+            if(!emailId) return alert("Client Email is required!");
+
+            const saveBtn = document.getElementById('save-btn');
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            saveBtn.disabled = true;
+
+            try {
+                let finalImageUrl = document.getElementById('f-existingCoverImg').value;
+                const fileInput = document.getElementById('f-coverImgUpload');
+
+                // Send to Google Drive via Apps Script
+                if (fileInput.files.length > 0) {
+                    saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading Image to Drive...';
+                    
+                    const file = fileInput.files[0];
+                    const base64String = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(file);
+                    });
+
+                    const response = await fetch(GOOGLE_APP_SCRIPT_URL, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            filename: emailId + "_cover_" + file.name,
+                            mimeType: file.type,
+                            base64: base64String
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        finalImageUrl = result.url;
+                    } else {
+                        throw new Error("Drive Upload Failed: " + result.error);
+                    }
+                }
+
+                saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving Database...';
+
+                const clientData = {
+                    groom: document.getElementById('f-groom').value,
+                    bride: document.getElementById('f-bride').value,
+                    packageType: document.getElementById('f-package').value,
+                    coverImage: finalImageUrl,
+                    bookingDate: document.getElementById('f-bookDate').value,
+                    weddingDate: document.getElementById('f-wedDate').value,
+                    expectedDelivery: document.getElementById('f-delDate').value,
+                    currentStep: parseInt(document.getElementById('f-currentStep').value),
+                    totalAmount: parseInt(document.getElementById('f-totalAmt').value) || 0,
+                    paidAmount: parseInt(document.getElementById('f-paidAmt').value) || 0,
+                    balanceAmount: parseInt(document.getElementById('f-balAmt').value) || 0,
+                    paymentStatus: document.getElementById('f-payStatus').value,
+                    albumStatus: document.getElementById('f-albumStatus').value,
+                    linkSelectedPhotos: document.getElementById('f-link1').value,
+                    linkWeddingFilm: document.getElementById('f-link2').value,
+                    linkTeaser: document.getElementById('f-link3').value,
+                    linkFullGallery: document.getElementById('f-link4').value,
+                    linkFinalPhotos: document.getElementById('f-link5').value,
+                    linkAlbumPreview: document.getElementById('f-link6').value,
+                    linkFinalDelivery: document.getElementById('f-link7').value
+                };
+
+                await db.collection('clients').doc(emailId).set(clientData, { merge: true });
+                showToast("Data saved successfully!");
+                switchView('clients');
+
+            } catch (error) {
+                console.error("Error saving document: ", error);
+                alert("Error saving data. Details: " + error.message);
+            } finally {
+                saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Client';
+                saveBtn.disabled = false;
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.style.display = 'flex';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+    </script>
 </body>
 </html>
